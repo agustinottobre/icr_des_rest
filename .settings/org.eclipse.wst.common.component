@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="despachoREST">
+    <wb-module deploy-name="icr_des_rest">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="despachoREST"/>
-        <property name="java-output-path" value="/despachoREST/build/classes"/>
+        <property name="context-root" value="icr_des_rest"/>
+        <property name="java-output-path" value="/icr_des_rest/build/classes"/>
     </wb-module>
 </project-modules>
