@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="ServidorEstadoEntregaBeanService"
+	targetNamespace="http://portalEstadoEntrega/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://portalEstadoEntrega/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<wsdl:types>
+		<xs:schema elementFormDefault="unqualified" targetNamespace="http://portalEstadoEntrega/"
+			version="1.0" xmlns:tns="http://portalEstadoEntrega/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:element name="notificarEntregaDespacho" type="tns:notificarEntregaDespacho" />
+			<xs:element name="notificarEntregaDespachoResponse" type="tns:notificarEntregaDespachoResponse" />
+			<xs:complexType name="notificarEntregaDespacho">
+				<xs:sequence>
+					<xs:element name="arg0" type="xs:int" />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="notificarEntregaDespachoResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="notificarEntregaDespacho">
+		<wsdl:part element="tns:notificarEntregaDespacho" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="notificarEntregaDespachoResponse">
+		<wsdl:part element="tns:notificarEntregaDespachoResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="ServidorEstadoEntregaBean">
+		<wsdl:operation name="notificarEntregaDespacho">
+			<wsdl:input message="tns:notificarEntregaDespacho" 
+				name="notificarEntregaDespacho">
+			</wsdl:input>
+			<wsdl:output message="tns:notificarEntregaDespachoResponse"
+				name="notificarEntregaDespachoResponse">
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="ServidorEstadoEntregaBeanServiceSoapBinding"
+		type="tns:ServidorEstadoEntregaBean">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="notificarEntregaDespacho">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="notificarEntregaDespacho">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="notificarEntregaDespachoResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="ServidorEstadoEntregaBeanService">
+		<wsdl:port binding="tns:ServidorEstadoEntregaBeanServiceSoapBinding" name="ServidorEstadoEntregaBeanPort">
+			<!-- <soap:address location="http://192.168.10.94:8080/portalEstadoEntrega/ServidorEstadoEntregaBeanService/ServidorEstadoEntregaBean"/>  -->
+			<soap:address location="http://w7-christian:8080/PortalWS/ServidorEstadoEntregaBean"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

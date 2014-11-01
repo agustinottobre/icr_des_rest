@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://soap.interfaces.tpo.ia.fain.uade/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="OrdenDespachoSoapWSBeanService" targetNamespace="http://soap.interfaces.tpo.ia.fain.uade/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soap.interfaces.tpo.ia.fain.uade/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://soap.interfaces.tpo.ia.fain.uade/">
+  <xs:element name="recibirOrdenDespacho" type="tns:recibirOrdenDespacho"/>
+  <xs:element name="recibirOrdenDespachoResponse" type="tns:recibirOrdenDespachoResponse"/>
+  <xs:complexType name="recibirOrdenDespacho">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:orden-despacho"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="orden-despacho">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigo-despacho" type="xs:string"/>
+      <xs:element minOccurs="0" name="codigo-venta" type="xs:string"/>
+      <xs:element minOccurs="0" name="id-portal" type="xs:string"/>
+      <xs:element minOccurs="0" name="id-monitoreo" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="items" type="tns:item"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="item">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="articulo-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="cantidad" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="recibirOrdenDespachoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:resultado"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="resultado">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="estado" type="xs:string"/>
+      <xs:element minOccurs="0" name="mensaje" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArticuloDesconocidoException" type="tns:ArticuloDesconocidoException"/>
+  <xs:complexType name="ArticuloDesconocidoException">
+    <xs:sequence>
+      <xs:element name="articuloId" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="OrdenDespachoYaExisteException" type="tns:OrdenDespachoYaExisteException"/>
+  <xs:complexType name="OrdenDespachoYaExisteException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Exception" type="tns:Exception"/>
+  <xs:complexType name="Exception">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="recibirOrdenDespacho">
+    <wsdl:part element="tns:recibirOrdenDespacho" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OrdenDespachoYaExisteException">
+    <wsdl:part element="tns:OrdenDespachoYaExisteException" name="OrdenDespachoYaExisteException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ArticuloDesconocidoException">
+    <wsdl:part element="tns:ArticuloDesconocidoException" name="ArticuloDesconocidoException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="Exception">
+    <wsdl:part element="tns:Exception" name="Exception">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recibirOrdenDespachoResponse">
+    <wsdl:part element="tns:recibirOrdenDespachoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="OrdenDespachoSoapWS">
+    <wsdl:operation name="recibirOrdenDespacho">
+      <wsdl:input message="tns:recibirOrdenDespacho" name="recibirOrdenDespacho">
+    </wsdl:input>
+      <wsdl:output message="tns:recibirOrdenDespachoResponse" name="recibirOrdenDespachoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:Exception" name="Exception">
+    </wsdl:fault>
+      <wsdl:fault message="tns:ArticuloDesconocidoException" name="ArticuloDesconocidoException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:OrdenDespachoYaExisteException" name="OrdenDespachoYaExisteException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OrdenDespachoSoapWSBeanServiceSoapBinding" type="tns:OrdenDespachoSoapWS">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="recibirOrdenDespacho">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="recibirOrdenDespacho">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="recibirOrdenDespachoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="Exception">
+        <soap:fault name="Exception" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ArticuloDesconocidoException">
+        <soap:fault name="ArticuloDesconocidoException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OrdenDespachoYaExisteException">
+        <soap:fault name="OrdenDespachoYaExisteException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OrdenDespachoSoapWSBeanService">
+    <wsdl:port binding="tns:OrdenDespachoSoapWSBeanServiceSoapBinding" name="OrdenDespachoSoapWSBeanPort">
+      <soap:address location="http://localhost:8080/uade-ia-tpo-interface-ws/OrdenDespachoSoapWSBean"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
