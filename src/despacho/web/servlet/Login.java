@@ -1,0 +1,71 @@
+package despacho.web.servlet;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+//import dtos.ODVDTO;
+//import stub.Stub;
+
+public class Login extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    public Login() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("### doGet Login");
+		String user = request.getParameter("username");
+		String pass = request.getParameter("passsword");
+		HttpSession session = request.getSession();
+		session.setAttribute("error", "");
+	    session.setAttribute("confirm", "");
+	    
+		//para testear nomas
+		if (user.equals("test"))
+		{
+//			ODVDTO myOdv = new ODVDTO();
+//			myOdv.id = 1;			
+		    session.setAttribute("estaLoggeado", "true");
+//		    session.setAttribute("myOdv", myOdv);		    
+			RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
+			dispatcher.forward(request, response);
+			return;
+		}
+		
+		try{
+//			Stub s = Stub.getIntance();
+			try {
+//			if (s.cprCargada()){
+//				ODVDTO myOdv = s.getCpr().validateOdv(user, pass);
+//				if (myOdv != null){
+//					session = request.getSession();
+//				    session.setAttribute("estaLoggeado", "true");
+//				    session.setAttribute("myOdv", myOdv);
+//				    session.setAttribute("error", "");
+//					RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
+//					dispatcher.forward(request, response);
+//					return;
+//				}
+//			}
+			} catch (Exception e) {
+			}
+		}catch(Exception e){			
+		}
+		
+		session = request.getSession();
+		session.setAttribute("error", "Usuario y/o contrase�a incorrectos");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
+		dispatcher.forward(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request,response);
+	}
+}

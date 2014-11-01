@@ -1,0 +1,33 @@
+/* Otros */
+@import url("tsc.css");
+@import url("table.css");
+@import url("graficos-jqplot.css");
+
+/*
+body, html {
+    color:#282828;
+    background:#000000;
+    text-align:center;
+}
+
+.customH3{
+	font-family:"Arial", Helvetica, sans-serif;
+	color: red;
+}
+*/
+
+*{
+margin:0px;
+padding:0px;
+}
+
+body {
+  text-align: center;
+ }
+
+#page-wrap {
+  text-align: left;
+  /* width: 800px; */
+  width: 1024px;
+  margin: 0 auto;
+}
