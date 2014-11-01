@@ -25,5 +25,12 @@ public class RecursoArticulo {
 	@Produces("text/plain")
 	public String testEJB() {
 	    return servicioArticulo.testEJB();
+	}
+	
+	@GET()
+	@Path("jpa")
+	@Produces("text/plain")
+	public String testJPA() {
+	    return servicioArticulo.testJPA();
 	}	
 }

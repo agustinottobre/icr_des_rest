@@ -7,7 +7,7 @@ import javax.ws.rs.core.Application;
 import despacho.rest.recursos.RecursoArticulo;
 import despacho.rest.recursos.RecursoOrdenDespacho;
 
-@ApplicationPath("/")
+@ApplicationPath("/rest")
 public class AplicacionDespachoREST extends Application {
 
 	private Set<Object> singletons = new HashSet<Object>();
