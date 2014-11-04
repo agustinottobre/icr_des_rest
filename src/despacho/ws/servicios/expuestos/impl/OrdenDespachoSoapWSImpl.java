@@ -33,8 +33,8 @@ public class OrdenDespachoSoapWSImpl implements OrdenDespachoSoapWS {
 		OrdenDespacho ordenDespacho = (OrdenDespacho) arg0;
 		OrdenDespachoDTO ordenDespachoDTO = new OrdenDespachoDTO();
 		
-		System.out.println("##Web Service - Logistica --> Despacho - OrdenDespacho ");
-		
+		System.out.println("###### Llamada de Web Service de Logistica --> Despacho para envio de Orden de Despacho ");
+		System.out.println("## --- Datos Recibidos ---");
 		System.out.println("##codigo despacho: " + ordenDespacho.getCodigoDespacho());
 		ordenDespachoDTO.setIdOrdenDespacho(Integer.parseInt(ordenDespacho.getCodigoDespacho()));
 		
@@ -46,13 +46,15 @@ public class OrdenDespachoSoapWSImpl implements OrdenDespachoSoapWS {
 		OrdenVentaDTO ordenVentaDTO = new OrdenVentaDTO();
 		ordenVentaDTO.setIdOrdenVenta(Integer.parseInt(ordenDespacho.getCodigoVenta()));
 		ordenVentaDTO.setPortal(portalDTO);
+		ordenDespachoDTO.setOrdenVenta(ordenVentaDTO);
 		
 		System.out.println("##codigo monitoreo: " + ordenDespacho.getIdMonitoreo());
 		//No se usa por ahora...
 		
 		List<ItemOrdenDespachoDTO> itemsOrdenDespachoDTOs = new ArrayList<ItemOrdenDespachoDTO>();
+		System.out.println("## ITEMS");
 		for(Item item : ordenDespacho.getItems()){
-			System.out.println("--------");
+			System.out.println("------------------");
 			ItemOrdenDespachoDTO itemOrdenDespachoDTO = new ItemOrdenDespachoDTO();
 			System.out.println("####item - id articulo: " + item.getArticuloId());
 			ArticuloDTO articuloDTO = new ArticuloDTO();
@@ -60,15 +62,14 @@ public class OrdenDespachoSoapWSImpl implements OrdenDespachoSoapWS {
 			itemOrdenDespachoDTO.setArticulo(articuloDTO);
 			System.out.println("####item - cantidad: " + item.getCantidad());
 			itemOrdenDespachoDTO.setCantidad(item.getCantidad());
+			itemOrdenDespachoDTO.setIdOrdenDespacho(ordenDespachoDTO.getIdOrdenDespacho());
 			itemsOrdenDespachoDTOs.add(itemOrdenDespachoDTO);
 			System.out.println("");
 		}
 		ordenDespachoDTO.setItems(itemsOrdenDespachoDTOs);
 		
-		OrdenDespachoDTO ordDespachoDTOResultado = administradorOrdenesDespacho.altaOrdenDespacho(ordenDespachoDTO);
-		
 		Resultado resultado = new Resultado();
-		if(ordenDespachoDTO.equals(ordDespachoDTOResultado)){
+		if(administradorOrdenesDespacho.altaOrdenDespacho(ordenDespachoDTO)){
 			System.out.println("## AdministradorOrdenesDespacho - altaOrdenDespacho OK");
 			resultado.setEstado("OK");
 			resultado.setMensaje("El alta de la Orden de Despacho fue exitosa");		
