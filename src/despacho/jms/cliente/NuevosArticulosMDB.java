@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Date;
 
 import javax.ejb.ActivationConfigProperty;
+import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -15,6 +16,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Unmarshaller;
 
+import despacho.ejb.interfaces.remotas.AdministradorArticulos;
 import despacho.xml.bindings.Articulo;
 import dto.ArticuloDTO;
 
@@ -28,6 +30,9 @@ activationConfig = {
 }, mappedName = "queue/nuevosArticulos")
 
 public class NuevosArticulosMDB implements MessageListener {
+	
+	@EJB
+	private AdministradorArticulos administradorArticulos;
 
     public NuevosArticulosMDB() {
     }
@@ -57,6 +62,13 @@ public class NuevosArticulosMDB implements MessageListener {
           articuloDTO.setDescripcion(articulo.getNombre());
           articuloDTO.setIdArticulo(Integer.parseInt(articulo.getCodigo()));
           articuloDTO.setIdDeposito(Integer.parseInt(articulo.getIdModulo()));
+          
+          if (null != administradorArticulos.altaArticulo(articuloDTO)){
+        	  System.out.println("administradorArticulos.altaArticulo exitosa!");
+        	  return;
+          }
+          System.out.println("administradorArticulos.altaArticulo fallida!");
+          
              
         } catch (JMSException e) {
         	e.printStackTrace();

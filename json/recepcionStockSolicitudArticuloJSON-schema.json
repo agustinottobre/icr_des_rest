@@ -1,0 +1,43 @@
+{
+	"type":"object",
+	"$schema": "http://json-schema.org/draft-03/schema",
+	"id": "http://www.uade.edu.ar/fain/ia/tpo/despacho",
+	"required":false,
+	"properties":{
+		"idModulo": {
+			"type":"string",
+			"id": "http://www.uade.edu.ar/fain/ia/tpo/despacho/idModulo",
+			"required":false
+		},
+		"idSolicitud": {
+			"type":"string",
+			"id": "http://www.uade.edu.ar/fain/ia/tpo/despacho/idSolicitud",
+			"required":false
+		},
+		"items": {
+			"type":"array",
+			"id": "http://www.uade.edu.ar/fain/ia/tpo/despacho/items",
+			"required":false,
+			"items":
+				{
+					"type":"object",
+					"id": "http://www.uade.edu.ar/fain/ia/tpo/despacho/items/0",
+					"required":false,
+					"properties":{
+						"cantidad": {
+							"type":"number",
+							"id": "http://www.uade.edu.ar/fain/ia/tpo/despacho/items/0/cantidad",
+							"required":false
+						},
+						"codigo": {
+							"type":"string",
+							"id": "http://www.uade.edu.ar/fain/ia/tpo/despacho/items/0/codigo",
+							"required":false
+						}
+					}
+				}
+			
+
+		}
+	}
+}
