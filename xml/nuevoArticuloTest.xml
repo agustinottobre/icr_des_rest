@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<articulo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="NuevoArticuloEnDeposito-schema.xsd">
+  <codigo>111</codigo>
+  <nombre>Camara de fotos Kodak</nombre>
+  <idModulo>123</idModulo>
+</articulo>
