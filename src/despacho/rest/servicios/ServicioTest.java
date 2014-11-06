@@ -11,8 +11,10 @@ import javax.inject.Inject;
 
 import despacho.ejb.interfaces.remotas.AdministradorArticulos;
 import despacho.ejb.interfaces.remotas.AdministradorTest;
+import despacho.ejb.interfaces.remotas.ClienteRestParaLogistica;
 import despacho.rest.bindings.ArticulosRecibidos;
 import despacho.rest.bindings.Item;
+import despacho.rest.cliente.ClienteRestParaLogisticaBean;
 
 @Stateless
 public class ServicioTest {
@@ -56,6 +58,14 @@ public class ServicioTest {
 			items.add(item);
 		articulosRecibidos.setItems(items);
 		return articulosRecibidos;
+	}
+	
+	public String enviarCambioEstado(){
+		ClienteRestParaLogisticaBean clienteRestParaLogisticaBean = 
+				new ClienteRestParaLogisticaBean();
+		clienteRestParaLogisticaBean.enviarCambioEstado(65432);
+		
+		return "enviarCambioEstado OK!";
 	}
 	
 }

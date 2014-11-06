@@ -1,0 +1,113 @@
+4)JMS	jms/queue/nuevosArticulos	(nuestra)
+    Usuario: despacho
+    Password: despacho123!
+  test interno : ejecutar nuevoArticuloTestJMSClientSEND como aplicacion java separada del servidor, envia el contenido de xml/nuevoArticuloTest.xml
+  XML
+  <?xml version="1.0" encoding="UTF-8"?>
+  <articulo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="NuevoArticuloEnDeposito-schema.xsd">
+    <codigo>111</codigo>
+    <nombre>Camara de fotos Kodak</nombre>
+    <idModulo>123</idModulo>
+  </articulo>
+  
+  Respondemos:
+  ------------
+  Nada, es una cola asincronica
+
+  
+
+5)REST	(nuestro)
+  http://localhost:8080/despacho/rest/articulos/recibirArticulos
+  test interno: falta implementar, simular post con complemento chrome
+  POST
+  JSON:
+      {
+	"idModulo": "3",
+	"idSolicitud": "22",
+	"items": [
+		{
+			"cantidad": 5,
+			"codigo": "3234"
+		},
+		{
+			"cantidad": 12,
+			"codigo": "7654"
+		}
+	]
+      }
+
+  Respondemos:
+  -----------
+  {
+    estado: "OK"
+    mensaje: "##recibirArticulos OK!"
+  }
+  
+6)JMS	(NO PROBADO)
+  Enviamos solicitud de articulos
+  ClienteJmsParaDepositoBean.enviarSolicitudesArticulos(SolicitudArticuloDTO)
+  Configurar desde ClienteJmsParaDepositoBean
+
+9)REST POST
+  test interno http://localhost:8080/despacho/rest/test/enviarcambioestado
+  XML
+  {"nroDespacho":65432}
+  
+  Respuesta esperada:
+  ------------------
+  {
+    “estado” : “ERROR” o “OK”,
+    “mensaje” : “MENSAJE”
+  }
+  
+10)WS WSDL	(nuestro)
+   http://localhost:8080/despacho/OrdenDespachoSoapWS?wsdl
+   test interno: http://localhost:8080/despacho/rest/test/recibirordendespacho
+   XML:
+   <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+    <Body>
+        <recibirOrdenDespacho xmlns="http://soap.interfaces.tpo.ia.fain.uade/">
+            <!-- Optional -->
+            <arg0 xmlns="">
+                <codigo-despacho>1</codigo-despacho>
+                <codigo-venta>2</codigo-venta>
+                <id-portal>3</id-portal>
+                <id-monitoreo>4</id-monitoreo>
+                <!-- Optional -->
+                <items>
+                    <articulo-id>1755725</articulo-id>
+                    <cantidad>4</cantidad>
+                </items>
+            </arg0>
+        </recibirOrdenDespacho>
+    </Body>
+  </Envelope>
+
+  Respondemos:
+  -----------
+  <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+      <soap:Body>
+	  <ns2:recibirOrdenDespachoResponse xmlns:ns2="http://soap.interfaces.tpo.ia.fain.uade/">
+	      <return>
+		  <estado>ERROR</estado>
+		  <mensaje>Fallo el alta de la Orden de Despacho</mensaje>
+	      </return>
+	  </ns2:recibirOrdenDespachoResponse>
+      </soap:Body>
+  </soap:Envelope>
+  o 
+  <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <ns2:recibirOrdenDespachoResponse xmlns:ns2="http://soap.interfaces.tpo.ia.fain.uade/">
+            <return>
+                <estado>OK</estado>
+                <mensaje>El alta de la Orden de Despacho fue exitosa</mensaje>
+            </return>
+        </ns2:recibirOrdenDespachoResponse>
+    </soap:Body>
+  </soap:Envelope>
+  
+11)WS WSDL
+   XML
+   notificarEntregaDespacho
+   

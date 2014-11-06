@@ -2,6 +2,7 @@ package despacho.rest.recursos;
 
 import javax.ejb.Singleton;
 import javax.inject.Inject;
+import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -62,6 +63,20 @@ public class RecursoTest {
 	@Produces("application/json")
 	public ArticulosRecibidos testGenerarJsonRecibirArticulos() {
 	    return servicioTest.testGenerarJsonRecibirArticulos();
+	}
+	
+	@GET()
+	@Path("enviarcambioestado")
+	@Produces("application/json")
+	public String enviarCambioEstado() {
+	    return servicioTest.enviarCambioEstado();
+	}
+	
+	@POST
+	@Path("echopost")
+//	@Produces("application/json")
+	public String echo(Object object) {
+	    return object.toString();
 	}
 	
 }

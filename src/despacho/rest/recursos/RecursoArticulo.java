@@ -7,8 +7,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
 
 import despacho.rest.bindings.ArticulosRecibidos;
+import despacho.rest.bindings.RespuestaRest;
 import despacho.rest.servicios.ServicioArticulo;
 
 @Path("/articulos")
@@ -26,7 +28,8 @@ public class RecursoArticulo {
 	@POST
 	@Path("recibirArticulos")
 	@Consumes("application/json")
-	public String recibirArticulos(ArticulosRecibidos articulosRecibidos) {
+	@Produces("application/json")
+	public Response recibirArticulos(ArticulosRecibidos articulosRecibidos) {
 	    return servicioArticulo.recibirArticulos(articulosRecibidos);
 	}
 	

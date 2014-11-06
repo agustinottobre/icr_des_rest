@@ -20,6 +20,8 @@ import javax.xml.bind.Marshaller;
 
 import despacho.ejb.interfaces.remotas.ClienteJmsParaDeposito;
 import despacho.ejb.interfaces.remotas.SimClienteRestParaDeposito;
+import despacho.rest.bindings.ArticulosRecibidos;
+import despacho.rest.bindings.Item;
 import despacho.xml.bindings.SolicitudArticulos.Items.Articulo;
 import despacho.xml.bindings.SolicitudArticulos;
 import despacho.xml.bindings.SolicitudArticulos.Items;
@@ -29,7 +31,8 @@ import dto.SolicitudArticuloDTO;
 @Stateless
 public class SimClienteRestParaDepositoBean implements SimClienteRestParaDeposito {
 
-	public String testRecibirArticulosPorRESTDesdeDeposito(){		
-		return "##TEST testRecibirArticulosPorRESTDesdeDeposito OK!";
+	public String testRecibirArticulosPorRESTDesdeDeposito(){
+		
+		return "##TEST testRecibirArticulosPorREST DesdeDeposito OK!";
 	}
 }

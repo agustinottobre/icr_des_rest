@@ -30,8 +30,8 @@ import javax.jms.TextMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 
-public class HelloWorldJMSClientRECEIVE {
-    private static final Logger log = Logger.getLogger(HelloWorldJMSClientRECEIVE.class.getName());
+public class DepositoJMSRECEIVE {
+    private static final Logger log = Logger.getLogger(DepositoJMSRECEIVE.class.getName());
 
     // Set up all the default values
     private static final String DEFAULT_MESSAGE = "Hello, World!";
