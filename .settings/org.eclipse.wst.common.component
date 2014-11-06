@@ -2,6 +2,7 @@
     <wb-module deploy-name="icr_des_rest">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/xml" source-path="/xml"/>
         <property name="context-root" value="icr_des_rest"/>
         <property name="java-output-path" value="/icr_des_rest/build/classes"/>
     </wb-module>

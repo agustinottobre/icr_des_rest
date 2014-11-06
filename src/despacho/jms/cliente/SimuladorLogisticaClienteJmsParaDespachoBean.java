@@ -1,15 +1,24 @@
 package despacho.jms.cliente;
 
-import java.io.StringWriter;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Logger;
 
+import javax.annotation.Resource;
+import javax.ejb.EJB;
+import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
@@ -17,8 +26,10 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import despacho.ejb.interfaces.remotas.ClienteJmsParaDeposito;
+import despacho.ejb.interfaces.remotas.SimuladorLogisticaClienteJmsParaDespacho;
 import despacho.xml.bindings.SolicitudArticulos.Items.Articulo;
 import despacho.xml.bindings.SolicitudArticulos;
 import despacho.xml.bindings.SolicitudArticulos.Items;
@@ -26,70 +37,58 @@ import dto.ItemSolicitudArticuloDTO;
 import dto.SolicitudArticuloDTO;
 
 @Stateless
-public class ClienteJmsParaDepositoBean implements ClienteJmsParaDeposito{
+public class SimuladorLogisticaClienteJmsParaDespachoBean implements SimuladorLogisticaClienteJmsParaDespacho{
+	private final Logger log = Logger.getLogger(SimuladorLogisticaClienteJmsParaDespachoBean.class.getName());
+	
     private String DEFAULT_MESSAGE;
-    private final String DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
-    private final String DEFAULT_DESTINATION = "jms/queue/solicitud";
+    private final String DEFAULT_CONNECTION_FACTORY = "java:jboss/exported/jms/RemoteConnectionFactory";
+    private final String DEFAULT_DESTINATION = "java:jboss/exported/jms/queue/nuevosArticulos";
     private final String DEFAULT_MESSAGE_COUNT = "1";
-    private final String DEFAULT_USERNAME = "test1";
-    private final String DEFAULT_PASSWORD = "test12341!";
+    private final String DEFAULT_USERNAME = "despacho";
+    private final String DEFAULT_PASSWORD = "despacho123!";
+//    private static final String DEFAULT_USERNAME = "admin";
+//    private static final String DEFAULT_PASSWORD = "admin2014!";
     private final String INITIAL_CONTEXT_FACTORY = "org.jboss.naming.remote.client.InitialContextFactory";
     private final String PROVIDER_URL = "remote://localhost:4447";
 
+    public String testRecibirOrdenDespachoPorWSDesdeLogistica(){
 
-	public boolean enviarSolicitudesArticulos(SolicitudArticuloDTO solicitudArticuloDTO){		
         ConnectionFactory connectionFactory = null;
         Connection connection = null;
         Session session = null;
         MessageProducer producer = null;
+        MessageConsumer consumer = null;
         Destination destination = null;
         TextMessage message = null;
         Context context = null;
 
-		
-		System.out.println("------------------------------");
-        System.out.println("##Enviando solicitudes de articulos al deposito: queue/deposito fecha: " + new Date() );
-        System.out.println("##solicitudArticulo.id: " + solicitudArticuloDTO.getIdSolicitud());
-        System.out.println("##solicitudArticulo.idDeposito: " + solicitudArticuloDTO.getidDeposito());
-        for(ItemSolicitudArticuloDTO itemSolicitudArticuloDTO : solicitudArticuloDTO.getItems()){
-        		System.out.println("####itemSolicitudArticulo.idArticulo: " + itemSolicitudArticuloDTO.getArticulo().getIdArticulo());
-        		System.out.println("####itemSolicitudArticulo.cantidad: " + itemSolicitudArticuloDTO.getCantidad());
-        }
-        System.out.println("------------------------------");
-        
-        SolicitudArticulos solicitudArticulos = new SolicitudArticulos();
-        solicitudArticulos.setIdSolicitud(String.valueOf(solicitudArticuloDTO.getIdSolicitud()));
-        solicitudArticulos.setIdModulo(String.valueOf(solicitudArticuloDTO.getidDeposito()));
-        List<Items> items = new ArrayList<Items>();
-        for(ItemSolicitudArticuloDTO itemSolicitudArticuloDTO : solicitudArticuloDTO.getItems()){
-        	Items item = new Items();
-        	Articulo articulo = new Articulo();
-        	articulo.setCodigo(String.valueOf(itemSolicitudArticuloDTO.getArticulo().getIdArticulo()));
-        	articulo.setCantidad(itemSolicitudArticuloDTO.getCantidad());
-        	item.setArticulo(articulo);
-        	solicitudArticulos.setItems(item);
-        }
-        
-        StringWriter sw = new StringWriter();
-        
         try {
-        	JAXBContext jc = JAXBContext.newInstance(SolicitudArticulos.class);
-        
-        	Marshaller marshaller = jc.createMarshaller();
-        	marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        
-        	marshaller.marshal(solicitudArticulos, System.out);
-        	marshaller.marshal(solicitudArticulos, sw);
-
-        } catch (Exception e){
-        	e.printStackTrace();
-        	return false;
-        }
-        
-        try {
+//        	System.getProperty("[B]jboss.server.home.dir[/B]");
+//        	System.getProperty("jboss.server.config.url");
+        	
         	String basePath= "../standalone/deployments/icr_des_ear.ear/icr_des_rest.war/"; 
+        	  
+//        	  String files;
+//        	  File folder = new File(basePath);
+//        	  File[] listOfFiles = folder.listFiles(); 
+//        	 
+//        	  for (int i = 0; i < listOfFiles.length; i++) 
+//        	  {
+//        	   if (listOfFiles[i].isFile()) 
+//        	   {
+//        		   files = listOfFiles[i].getName();
+//        		   System.out.println(files);
+//        	   }
+//        	  }
 
-            DEFAULT_MESSAGE = sw.toString();
+            StringBuilder sb = new StringBuilder();
+            BufferedReader br = new BufferedReader(new FileReader(basePath + "xml/nuevoArticuloTest.xml"));
+            String sCurrentLine;
+            while (( sCurrentLine = br.readLine()) != null) {
+              sb.append(sCurrentLine);
+            }
+            System.out.println(sb.toString());
+            DEFAULT_MESSAGE = sb.toString();
             
             // Set up the context for the JNDI lookup
             final Properties env = new Properties();
@@ -101,48 +100,57 @@ public class ClienteJmsParaDepositoBean implements ClienteJmsParaDeposito{
 
             // Perform the JNDI lookups
             String connectionFactoryString = System.getProperty("connection.factory", DEFAULT_CONNECTION_FACTORY);
-            System.out.println("Attempting to acquire connection factory \"" + connectionFactoryString + "\"");
+            log.info("Attempting to acquire connection factory \"" + connectionFactoryString + "\"");
             connectionFactory = (ConnectionFactory) context.lookup(connectionFactoryString);
-            System.out.println("Found connection factory \"" + connectionFactoryString + "\" in JNDI");
+            log.info("Found connection factory \"" + connectionFactoryString + "\" in JNDI");
 
             String destinationString = System.getProperty("destination", DEFAULT_DESTINATION);
-            System.out.println("Attempting to acquire destination \"" + destinationString + "\"");
+            log.info("Attempting to acquire destination \"" + destinationString + "\"");
             destination = (Destination) context.lookup(destinationString);
-            System.out.println("Found destination \"" + destinationString + "\" in JNDI");
+            log.info("Found destination \"" + destinationString + "\" in JNDI");
 
-            // Create the JMS connection, session, producer
+            // Create the JMS connection, session, producer, and consumer
             connection = connectionFactory.createConnection(System.getProperty("username", DEFAULT_USERNAME), System.getProperty("password", DEFAULT_PASSWORD));
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             producer = session.createProducer(destination);
+//            consumer = session.createConsumer(destination);
             connection.start();
 
             int count = Integer.parseInt(System.getProperty("message.count", DEFAULT_MESSAGE_COUNT));
             String content = System.getProperty("message.content", DEFAULT_MESSAGE);
 
-            System.out.println("Sending " + count + " messages with content: " + content);
+            log.info("Sending " + count + " messages with content: " + content);
+
 //             Send the specified number of messages
             for (int i = 0; i < count; i++) {
                 message = session.createTextMessage(content);
                 producer.send(message);
             }
+
+            // Then receive the same number of messages that were sent
+//            for (int i = 0; i < count; i++) {
+//                message = (TextMessage) consumer.receive(5000);
+//                log.info("Received message with content " + message.getText());
+//            }
         } catch (Exception e) {
-        	System.out.println(e.getMessage());
-        	return false;
+            log.severe(e.getMessage());
+//            throw e;
         } finally {
         	try{
 	            if (context != null) {
+	            	
 	                context.close();
 	            }
+	
 	            // closing the connection takes care of the session, producer, and consumer
 	            if (connection != null) {
 	                connection.close();
 	            }
         	}catch (Exception e) {
         		e.printStackTrace();
-        		return false;
 			}
         }
         
-        return true;
-	}
+        return "##TEST testRecibirOrdenDespachoPorWSDesdeLogistica OK!";
+    }
 }

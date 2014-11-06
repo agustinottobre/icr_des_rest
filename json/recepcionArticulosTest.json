@@ -1,0 +1,14 @@
+{
+	"idModulo": "3",
+	"idSolicitud": "22",
+	"items": [
+		{
+			"cantidad": 5,
+			"codigo": "3234"
+		},
+		{
+			"cantidad": 12,
+			"codigo": "7654"
+		}
+	]
+}

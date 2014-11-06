@@ -2,10 +2,13 @@ package despacho.rest.aplicacion;
 
 import java.util.Set;
 import java.util.HashSet;
+
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
+
 import despacho.rest.recursos.RecursoArticulo;
 import despacho.rest.recursos.RecursoOrdenDespacho;
+import despacho.rest.recursos.RecursoTest;
 
 @ApplicationPath("/rest")
 public class AplicacionDespachoREST extends Application {
@@ -15,6 +18,7 @@ public class AplicacionDespachoREST extends Application {
 	public AplicacionDespachoREST(){
 		 classes.add(RecursoArticulo.class);
 		 classes.add(RecursoOrdenDespacho.class);
+		 classes.add(RecursoTest.class);
 	}
 	@Override
 	public Set<Class<?>> getClasses() {
