@@ -17,8 +17,9 @@
 					<div class="row-fluid">
 						<div class="span12">
 							<div class="row-fluid">
-								<table class="table table-striped table-hover">
-									<tbody>
+								<div class="span12">
+								<table class="table table-striped table-hover tablesorter-bootstrap">
+									<thead>
 										<tr>
 											<td>id</td>
 											<td>estado</td>
@@ -26,6 +27,17 @@
 											<td>portal</td>
 											<td>fecha</td>
 										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											<td>id</td>
+											<td>estado</td>
+											<td>venta</td>
+											<td>portal</td>
+											<td>fecha</td>
+										</tr>
+									</tfoot>
+									<tbody>
 								        <%
 										  List<OrdenDespachoDTO> listaOrdenesDespacho  = (List<OrdenDespachoDTO>)request.getAttribute("lista-ordenesdespacho");
 // 										  String cantidad_platos = request.getParameter("cantidad_platos");
@@ -46,6 +58,7 @@
 										%>
 									</tbody>
 								</table>
+							</div>
 <!-- 									<div class="controls inline_form"> -->
 										<%
 // 											if(0 < comanDto.getItemsComanda().size()){

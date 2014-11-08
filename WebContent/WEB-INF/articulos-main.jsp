@@ -16,13 +16,22 @@
 					<div class="row-fluid">
 						<div class="span12">
 							<div class="row-fluid">
-								<table class="table table-striped table-hover">
-									<tbody>
+								<table class="table table-striped table-hover tablesorter-bootstrap">
+									<thead>
 										<tr>
 											<td>deposito</td>
 											<td>id</td>
 											<td>descripcion</td>
 										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											<td>deposito</td>
+											<td>id</td>
+											<td>descripcion</td>
+										</tr>
+									</tfoot>
+									<tbody>
 								        <%
 								        
 								          String agregar = "<button action=\"agregar_item_pedido\" class=\"btn btn-mini btn-success js_accion_item_pedido\" type=\"button\">agregar</button>";
@@ -112,13 +121,6 @@
 <!-- 										<select name="select_items_carta" placeholder="Items Carta" id="select_items_carta"> -->
 <!-- 										<option ></option> -->
 <%-- 										<% --%>
-// // 											List<ItemCartaDTO> itemCartaDTOs = (List<ItemCartaDTO>) request.getAttribute("items_carta");
-// // 											Iterator itic = itemCartaDTOs.iterator();
-// // 										  	while(itic.hasNext()) {
-// // 										  		ItemCartaDTO itemCartaDTO = (ItemCartaDTO) itic.next();
-										  		
-// // 										  		out.print("<option value=\"" + itemCartaDTO.getId() + "\">" + itemCartaDTO.getDescripcion() + "</option>");
-// // 										  	}
 <%-- 										%> --%>
 <!-- 										</select> -->
 <!-- 									</div> -->
@@ -129,7 +131,6 @@
 <!-- 									<br> -->
 <!-- 									<div class="controls inline_form"> -->
 <%-- 										<% --%>
-// // 										  out.print(validar_almacen);
 <%-- 										%>										 --%>
 <!-- 									</div> -->
 <!-- 								</div> -->
