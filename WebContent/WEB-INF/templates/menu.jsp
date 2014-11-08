@@ -43,8 +43,9 @@
 <ul>
 <li><a href="home.jsp">Home</a></li>
 <!-- <li><a href="abrir_mesa.jsp">AbrirMesa</a></li> -->
-<li><a href="action?action=mesas_view">Mesas</a></li>
-<li><a href="action?action=listar_items_pendientes&area=cocina">Cocina</a></li>
+<li><a href="accion?accion=listar_articulos">Articulos</a></li>
+<li><a href="accion?accion=listar_ordenesdespacho">Ordenes Despacho</a></li>
+<!-- <li><a href="action?action=mesas_view">Mesas</a></li> -->
 <li><a href="action?action=listar_items_pendientes&area=cafeteria">Cafeteria</a></li>
 <li><a href="action?action=listar_items_pendientes&area=barra">Barra</a></li>
 <!-- <li><a href="servicios.jsp?tipo-servicio=alta-consumos-xml">Servicios</a></li> -->

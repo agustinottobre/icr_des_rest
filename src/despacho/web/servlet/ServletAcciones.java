@@ -19,6 +19,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
+import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -30,6 +31,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.RestoreAction;
+
+import despacho.ejb.interfaces.remotas.AdministradorArticulos;
+import despacho.ejb.interfaces.remotas.AdministradorOrdenesDespacho;
+import dto.ArticuloDTO;
+import dto.OrdenDespachoDTO;
 
 //import org.apache.commons.fileupload.FileItem;
 //import org.apache.commons.fileupload.FileItemFactory;
@@ -63,22 +69,28 @@ import javax.swing.plaf.basic.BasicInternalFrameTitlePane.RestoreAction;
 
 
 @javax.servlet.annotation.WebServlet(urlPatterns = { "/index" })
-public class ActionServlet extends HttpServlet {
+public class ServletAcciones extends HttpServlet {
+	
+	@EJB
+	private AdministradorArticulos administradorArticulos;
+	
+	@EJB
+	private AdministradorOrdenesDespacho administradorOrdenesDespacho;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("## INICIO doGet #####################################");
 		
 //		ActionController actionController = ActionController.getInstance();
-		String action = request.getParameter("action");
-		System.out.println("## ACTION : " + action);
+		String accion = request.getParameter("accion");
+		System.out.println("## ACTION : " + accion);
 //		Stub stub = Stub.getIntance();
 //		
 //		RestaurantDTO restaurantDTO = new RestaurantDTO();
 //		restaurantDTO.setNombre("resto_1");
 		
 //		/* Si la accion enviada por el jsp es "abrir_mesa" */
-		if(action.equals("mesas_view")){
+		if(accion.equals("mesas_view")){
 //			if (stub.srOnline()){
 //				System.out.println("## STUB ONLINE");
 //				try {
@@ -113,7 +125,7 @@ public class ActionServlet extends HttpServlet {
 
 //			/* Despachar request a la pagina abrir_mesa.jsp para renderizar */
 			request.getRequestDispatcher("/mesas.jsp").forward(request, response);
-		}else if(action.equals("abrir_mesa")){
+		}else if(accion.equals("abrir_mesa")){
 			
 			String id_mesa = request.getParameter("id_mesa");
 			if(id_mesa != null){
@@ -145,7 +157,7 @@ public class ActionServlet extends HttpServlet {
 //			}
 //			//Redirigir nuevamente a abrir mesa
 			request.getRequestDispatcher("/action?action=mesas_view").forward(request, response);
-		}else if(action.equals("abrir_mesa_compuesta")){
+		}else if(accion.equals("abrir_mesa_compuesta")){
 			
 			String mesas_seleccionadas[]= request.getParameterValues("seleccion_mesa");
 			if(mesas_seleccionadas != null){
@@ -184,7 +196,7 @@ public class ActionServlet extends HttpServlet {
 //				}
 //			}
 			request.getRequestDispatcher("/action?action=mesas_view").forward(request, response);
-		}else if(action.equals("cerrar_mesa")){
+		}else if(accion.equals("cerrar_mesa")){
 			
 			String id_mesa = request.getParameter("id_mesa");
 //			if (stub.srOnline()){
@@ -202,7 +214,7 @@ public class ActionServlet extends HttpServlet {
 //				}
 //			}
 			request.getRequestDispatcher("/action?action=mesas_view").forward(request, response);
-		}else if(action.equals("liberar_mesa")){
+		}else if(accion.equals("liberar_mesa")){
 			
 			String id_mesa = request.getParameter("id_mesa");
 			
@@ -222,7 +234,7 @@ public class ActionServlet extends HttpServlet {
 //			
 			//Redirigir nuevamente a abrir mesa
 			request.getRequestDispatcher("/action?action=mesas_view").forward(request, response);
-		}else if(action.equals("reservar_mesa")){
+		}else if(accion.equals("reservar_mesa")){
 			
 			String cantidad_comensales = request.getParameter("cantidad_comensales");
 //			if (stub.srOnline()){
@@ -238,37 +250,34 @@ public class ActionServlet extends HttpServlet {
 //					e.printStackTrace();
 //				}
 //			}
-		}else if(action.equals("listar_items_pendientes")){
+		}else if(accion.equals("listar_articulos")){
+			List<ArticuloDTO> listaArticulos = administradorArticulos.listar();
+			if (listaArticulos != null && 0 <= listaArticulos.size())
+			{
+				request.setAttribute("lista-articulos-response", "Hay " + listaArticulos.size() + " articulos");
+				request.setAttribute("lista-articulos", listaArticulos);
+			}else{
+				request.setAttribute("lista-articulos-response", "No hay articulos");
+				request.setAttribute("error", "No hay articulos");
+				request.getRequestDispatcher("/error.jsp").forward(request, response);
+			}
 			
-			String area = request.getParameter("area");
-//			if (stub.srOnline()){
-//				System.out.println("## STUB ONLINE");
-//				try {
-//					Set<ItemComandaDTO> listaItemsComanda = null;
-//					if(area.equals("cocina")){
-//						listaItemsComanda = stub.getSistemaRemoto().obtenerItemsPendientesCocina(restaurantDTO);	
-//					}else if(area.equals("cafeteria")){
-//						listaItemsComanda = stub.getSistemaRemoto().obtenerItemsPendientesCafeteria(restaurantDTO);
-//					}else if(area.equals("barra")){
-//						listaItemsComanda = stub.getSistemaRemoto().obtenerItemsPendientesBarra(restaurantDTO);
-//					}
-					
-//					if (listaItemsComanda != null && 0 <= listaItemsComanda.size())
-//					{
-//						request.setAttribute("items-pendientes-response", "Hay " + listaItemsComanda.size() + " items pendientes");
-//						request.setAttribute("lista-items-pendientes", listaItemsComanda);
-//					}else{
-////						request.setAttribute("items-pendientes-response", "No items pendientes");
-////						request.setAttribute("error", "No se seleccionaron mesas");
-////						request.getRequestDispatcher("/error.jsp").forward(request, response);
-//					}
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//			/* Despachar request a la pagina abrir_mesa.jsp para renderizar */
-			request.getRequestDispatcher("/items_pendientes.jsp?area=" + area).forward(request, response);
-		}else if(action.equals("item_pendiente_listo")){
+//			request.getRequestDispatcher("/articulos.jsp?area=" + area).forward(request, response);
+			request.getRequestDispatcher("/articulos.jsp").forward(request, response);
+		}else if(accion.equals("listar_ordenesdespacho")){
+			List<OrdenDespachoDTO> listaOrdenesDespacho = administradorOrdenesDespacho.listar();
+			if (listaOrdenesDespacho != null && 0 <= listaOrdenesDespacho.size())
+			{
+				request.setAttribute("lista-ordenesdespacho-response", "Hay " + listaOrdenesDespacho.size() + " ordenes de despacho");
+				request.setAttribute("lista-ordenesdespacho", listaOrdenesDespacho);
+			}else{
+				request.setAttribute("lista-ordenesdespacho-response", "No hay articulos");
+				request.setAttribute("error", "No hay ordenes de despacho");
+				request.getRequestDispatcher("/error.jsp").forward(request, response);
+			}
+			
+			request.getRequestDispatcher("/ordenesdespacho.jsp").forward(request, response);
+		}else if(accion.equals("item_pendiente_listo")){
 			String area = request.getParameter("area");
 			String id_item_comanda = request.getParameter("id_item_comanda");
 			String estado = request.getParameter("estado");
@@ -286,7 +295,7 @@ public class ActionServlet extends HttpServlet {
 //				}
 //			}
 			request.getRequestDispatcher("/action?action=listar_items_pendientes&area=" + area).forward(request, response);
-		}else if(action.equals("item_pendiente_entregado")){
+		}else if(accion.equals("item_pendiente_entregado")){
 			String area = request.getParameter("area");
 			String id_item_comanda = request.getParameter("id_item_pedido");
 			String estado = request.getParameter("estado");
@@ -304,7 +313,7 @@ public class ActionServlet extends HttpServlet {
 //				}
 //			}
 			request.getRequestDispatcher("/action?action=listar_pedido").forward(request, response);
-		}else if(action.equals("listar_pedido")){
+		}else if(accion.equals("listar_pedido")){
 			
 			String id_mesa = request.getParameter("id_mesa");
 //			if (stub.srOnline()){
@@ -327,7 +336,7 @@ public class ActionServlet extends HttpServlet {
 //				}
 //			}
 			request.getRequestDispatcher("/items_pedido.jsp").forward(request, response);
-		}else if(action.equals("validar_almacen_item_pedido")){
+		}else if(accion.equals("validar_almacen_item_pedido")){
 		
 			String id_item_carta= request.getParameter("id_item_carta");
 			String cantidad_platos= request.getParameter("cantidad_platos");
@@ -367,7 +376,7 @@ public class ActionServlet extends HttpServlet {
 //				}
 //			}
 //			request.getRequestDispatcher("/items_pedido.jsp").forward(request, response);
-		}else if(action.equals("distribuir_pedido")){
+		}else if(accion.equals("distribuir_pedido")){
 			
 			String id_mesa = request.getParameter("id_mesa");
 //			if (stub.srOnline()){

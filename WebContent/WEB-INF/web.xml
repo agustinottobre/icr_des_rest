@@ -3,7 +3,7 @@
   <display-name>Aplicacion Web Despacho </display-name>
   
   <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>home.jsp</welcome-file>
   </welcome-file-list>
   <error-page>
     <location>/error.jsp</location>
@@ -26,6 +26,16 @@
     <servlet-name>Logout</servlet-name>
     <url-pattern>/Logout</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ServletAcciones</servlet-name>
+    <servlet-class>despacho.web.servlet.ServletAcciones</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletAcciones</servlet-name>
+    <url-pattern>/accion/*</url-pattern>
+  </servlet-mapping>
+  
   <servlet>
     <servlet-name>ServletAdministracion</servlet-name>
     <servlet-class>despacho.web.servlet.ServletAdministracion</servlet-class>

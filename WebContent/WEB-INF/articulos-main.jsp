@@ -1,10 +1,11 @@
 <%-- <%@page import="dto.ItemCartaDTO"%> --%>
+<%@page import="dto.ArticuloDTO"%>
 <%@page import="java.util.List"%>
 <%-- <%@page import="dto.ItemComandaDTO"%> --%>
 <%@page import="java.util.Iterator"%>
 <%-- <%@page import="dto.ComandaDTO"%> --%>
-<h2><img src="img/home.png" style="width: 25px; height: 25px;  middle; padding-right:20pt;"/>Items Pedido</h2>
-<p>Items Pedido...</p>
+<h2><img src="img/home.png" style="width: 25px; height: 25px;  middle; padding-right:20pt;"/>Articulos</h2>
+<p>Articulos...</p>
 
 	<div class="container container-fluid">
 		<div id="content" class="row-fluid">
@@ -18,12 +19,9 @@
 								<table class="table table-striped table-hover">
 									<tbody>
 										<tr>
-											<td>sel</td>
+											<td>deposito</td>
 											<td>id</td>
-											<td>cantidad</td>
-											<td>estado</td>
-											<td>item carta</td>
-											<td>accion</td>
+											<td>descripcion</td>
 										</tr>
 								        <%
 								        
@@ -74,19 +72,17 @@
 // 										    out.print("<td >" + btn_accion_item_pedido + "</td>");
 // 										    out.print("</tr >");
 // 										  }
+										  List<ArticuloDTO> listaArticulos = (List<ArticuloDTO>)request.getAttribute("lista-articulos");
+// 										  String cantidad_platos = request.getParameter("cantidad_platos");
+// 										  String validar_almacen_ok = request.getParameter("validar_almacen_ok");
 										  
-										  String id_item_carta = request.getParameter("id_item_carta");
-										  String cantidad_platos = request.getParameter("cantidad_platos");
-										  String validar_almacen_ok = request.getParameter("validar_almacen_ok");
-										  
-										  if( null != validar_almacen_ok && null != id_item_carta && null != cantidad_platos ){
-											  out.print("<tr id_item_pedido=" + "new" + ">");
-											  out.print("<td><input name=\"seleccion_item_pedido\" class\"checkbox_item_pedido\" type=\"checkbox\" value=\"" + "itemComandaDTO.getId()" + "\" " + "disabled" + " /></td>");
-											  out.print("<td >" + "" + "</td>");
-											  out.print("<td >" + cantidad_platos + "</td>");
-											  out.print("<td >" + "SIN CONFIRMAR" + "</td>");
-											  out.print("<td >" + "" + "</td>");
-											  out.print("<td >" + "" + "</td>");
+										  for (ArticuloDTO articuloDTO : listaArticulos ){
+											  
+											  out.print("<tr id_articulo=" + articuloDTO.getIdArticulo() + ">");
+// 											  out.print("<td><input name=\"seleccion_item_pedido\" class\"checkbox_item_pedido\" type=\"checkbox\" value=\"" + "itemComandaDTO.getId()" + "\" " + "disabled" + " /></td>");
+											  out.print("<td >" + articuloDTO.getIdDeposito() + "</td>");
+											  out.print("<td >" + articuloDTO.getIdArticulo() + "</td>");
+											  out.print("<td >" + articuloDTO.getDescripcion() + "</td>");
 											  out.print("</tr >");  
 										  }
 										  
