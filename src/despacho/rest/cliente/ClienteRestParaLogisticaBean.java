@@ -11,7 +11,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.DependsOn;
+import javax.ejb.EJB;
+import javax.ejb.Startup;
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
@@ -26,6 +32,7 @@ import javax.xml.bind.Marshaller;
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
 
+import despacho.ejb.interfaces.remotas.AdministradorPropiedades;
 import despacho.ejb.interfaces.remotas.ClienteJmsParaDeposito;
 import despacho.ejb.interfaces.remotas.ClienteRestParaLogistica;
 import despacho.ejb.interfaces.remotas.SimClienteRestParaDeposito;
@@ -39,13 +46,20 @@ import dto.SolicitudArticuloDTO;
 
 @Stateless
 public class ClienteRestParaLogisticaBean implements ClienteRestParaLogistica {
-
+	
+	private AdministradorPropiedades administradorPropiedades;
+	
 	@Override
 	public boolean enviarCambioEstado(int idOrdenDespacho) {
 		  try {
+			  Context context = new InitialContext();
+			  administradorPropiedades = (AdministradorPropiedades)context.lookup("java:global/icr_des_ear/icr_des_nco/AdministradorPropiedadesBean!despacho.ejb.interfaces.remotas.AdministradorPropiedades");
 			  
 				ClientRequest request = new ClientRequest(
-					"http://localhost:8080/despacho/rest/test/echopost");
+//						"http://localhost:8080/despacho/rest/test/echopost"
+						(String)administradorPropiedades.get("logistica-rest-host") +
+						(String)administradorPropiedades.get("logistica-rest-path-cambioestado")
+						);
 				request.accept("application/json");
 		 
 //				String input = "{\"nroDespacho\":100,\"name\":\"iPad 4\"}";

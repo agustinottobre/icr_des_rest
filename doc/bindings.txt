@@ -48,7 +48,7 @@
   ClienteJmsParaDepositoBean.enviarSolicitudesArticulos(SolicitudArticuloDTO)
   Configurar desde ClienteJmsParaDepositoBean
 
-9)REST POST
+9)REST POST (a logistica) 
   test interno http://localhost:8080/despacho/rest/test/enviarcambioestado
   XML
   {"nroDespacho":65432}
