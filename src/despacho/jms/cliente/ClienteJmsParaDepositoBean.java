@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -18,6 +20,7 @@ import javax.naming.InitialContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
+import despacho.ejb.interfaces.remotas.AdministradorPropiedades;
 import despacho.ejb.interfaces.remotas.ClienteJmsParaDeposito;
 import despacho.xml.bindings.SolicitudArticulos.Items.Articulo;
 import despacho.xml.bindings.SolicitudArticulos;
@@ -26,15 +29,29 @@ import dto.ItemSolicitudArticuloDTO;
 import dto.SolicitudArticuloDTO;
 
 @Stateless
+@LocalBean
 public class ClienteJmsParaDepositoBean implements ClienteJmsParaDeposito{
+	
+	@EJB
+	private AdministradorPropiedades administradorPropiedades;
+	
+//    private String DEFAULT_MESSAGE;
+//    private String DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
+//    private String DEFAULT_DESTINATION = "jms/queue/solicitud";
+//    private final String DEFAULT_MESSAGE_COUNT = "1";
+//    private String DEFAULT_USERNAME = "test1";
+//    private String DEFAULT_PASSWORD = "test12341!";
+//    private final String INITIAL_CONTEXT_FACTORY = "org.jboss.naming.remote.client.InitialContextFactory";
+//    private String PROVIDER_URL = "remote://localhost:4447";
+	
     private String DEFAULT_MESSAGE;
-    private final String DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
-    private final String DEFAULT_DESTINATION = "jms/queue/solicitud";
+    private String DEFAULT_CONNECTION_FACTORY;
+    private String DEFAULT_DESTINATION;
     private final String DEFAULT_MESSAGE_COUNT = "1";
-    private final String DEFAULT_USERNAME = "test1";
-    private final String DEFAULT_PASSWORD = "test12341!";
+    private String DEFAULT_USERNAME;
+    private String DEFAULT_PASSWORD;
     private final String INITIAL_CONTEXT_FACTORY = "org.jboss.naming.remote.client.InitialContextFactory";
-    private final String PROVIDER_URL = "remote://localhost:4447";
+    private String PROVIDER_URL;
 
 
 	public boolean enviarSolicitudesArticulos(SolicitudArticuloDTO solicitudArticuloDTO){		
@@ -46,9 +63,19 @@ public class ClienteJmsParaDepositoBean implements ClienteJmsParaDeposito{
         TextMessage message = null;
         Context context = null;
 
+        try{
+			DEFAULT_DESTINATION = (String)administradorPropiedades.get("deposito-jms-queue");
+			DEFAULT_CONNECTION_FACTORY = (String)administradorPropiedades.get("deposito-jms-connection-factory");
+			DEFAULT_USERNAME = (String)administradorPropiedades.get("deposito-jms-usuario");
+			DEFAULT_PASSWORD = (String)administradorPropiedades.get("deposito-jms-password");
+			PROVIDER_URL = (String)administradorPropiedades.get("deposito-jms-host");
+			
+        }catch(Exception e){
+        	e.printStackTrace();
+        }
 		
 		System.out.println("------------------------------");
-        System.out.println("##Enviando solicitudes de articulos al deposito: queue/deposito fecha: " + new Date() );
+        System.out.println("##Enviando solicitudes de articulos al deposito:  fecha: " + new Date() );
         System.out.println("##solicitudArticulo.id: " + solicitudArticuloDTO.getIdSolicitud());
         System.out.println("##solicitudArticulo.idDeposito: " + solicitudArticuloDTO.getidDeposito());
         for(ItemSolicitudArticuloDTO itemSolicitudArticuloDTO : solicitudArticuloDTO.getItems()){

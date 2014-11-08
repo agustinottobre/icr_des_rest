@@ -22,7 +22,7 @@ public class ServicioTest {
 	private AdministradorTest administradorTest;
 	
 	public String testEJB(){
-		return "APP Despacho REST OK, test SERVICIO Articulo EJB! " +
+		return "APP Despacho REST OK, test SERVICIO TEST EJB! " +
 				administradorTest.testEJB();
 	}
 	
