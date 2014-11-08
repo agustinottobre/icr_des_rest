@@ -73,7 +73,7 @@ public class NuevosArticulosMDB implements MessageListener {
           articuloDTO.setIdArticulo(Integer.parseInt(articulo.getCodigo()));
           articuloDTO.setIdDeposito(Integer.parseInt(articulo.getIdModulo()));
           
-          if (null != administradorArticulos.altaArticulo(articuloDTO)){
+          if (administradorArticulos.altaArticulo(articuloDTO)){
         	  System.out.println("administradorArticulos.altaArticulo exitosa!");
         	  return;
           }
