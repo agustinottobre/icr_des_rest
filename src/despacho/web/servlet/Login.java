@@ -20,6 +20,7 @@ public class Login extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		http://localhost:8080/despacho/Login?username=test&password=
 		System.out.println("### doGet Login");
 		String user = request.getParameter("username");
 		String pass = request.getParameter("passsword");
@@ -29,43 +30,24 @@ public class Login extends HttpServlet {
 	    
 		//para testear nomas
 		if (user.equals("test"))
-		{
-//			ODVDTO myOdv = new ODVDTO();
-//			myOdv.id = 1;			
-		    session.setAttribute("estaLoggeado", "true");
-//		    session.setAttribute("myOdv", myOdv);		    
+		{			
+		    session.setAttribute("estaLogueado", "true");		    
 			RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
-		
-		try{
-//			Stub s = Stub.getIntance();
-			try {
-//			if (s.cprCargada()){
-//				ODVDTO myOdv = s.getCpr().validateOdv(user, pass);
-//				if (myOdv != null){
-//					session = request.getSession();
-//				    session.setAttribute("estaLoggeado", "true");
-//				    session.setAttribute("myOdv", myOdv);
-//				    session.setAttribute("error", "");
-//					RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
-//					dispatcher.forward(request, response);
-//					return;
-//				}
-//			}
-			} catch (Exception e) {
-			}
-		}catch(Exception e){			
-		}
-		
+				
 		session = request.getSession();
-		session.setAttribute("error", "Usuario y/o contrase�a incorrectos");
+		session.setAttribute("error", "Usuario y/o contraseña incorrectos");
 		RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
 		dispatcher.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request,response);
+//		doGet(request,response);
+		System.out.println("### doPost Login");
+		String user = request.getParameter("username");
+		String pass = request.getParameter("passsword");
+		
 	}
 }
