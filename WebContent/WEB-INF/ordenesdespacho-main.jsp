@@ -15,10 +15,11 @@
 				<form id="items_pedido_form" action="action" method="GET" class="form-horizontal">
 <!-- 					<h1>Mesas</h1> -->
 					<div class="row-fluid">
-						<div class="span8">
+						<div class="span12">
 							<div class="row-fluid">
-								<table class="table table-striped table-hover">
-									<tbody>
+								<div class="span12">
+								<table class="table table-striped table-hover tablesorter-bootstrap">
+									<thead>
 										<tr>
 											<td>id</td>
 											<td>estado</td>
@@ -26,6 +27,17 @@
 											<td>portal</td>
 											<td>fecha</td>
 										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											<td>id</td>
+											<td>estado</td>
+											<td>venta</td>
+											<td>portal</td>
+											<td>fecha</td>
+										</tr>
+									</tfoot>
+									<tbody>
 								        <%
 										  List<OrdenDespachoDTO> listaOrdenesDespacho  = (List<OrdenDespachoDTO>)request.getAttribute("lista-ordenesdespacho");
 // 										  String cantidad_platos = request.getParameter("cantidad_platos");
@@ -46,6 +58,7 @@
 										%>
 									</tbody>
 								</table>
+							</div>
 <!-- 									<div class="controls inline_form"> -->
 										<%
 // 											if(0 < comanDto.getItemsComanda().size()){
@@ -61,37 +74,29 @@
 <!-- 								</div> -->
 							</div>
 						</div>
-						<div class="span4">	
-							<div class="row-fluid">
-		  						<div class="control-group">
-									<label class="control-label" for="select_items_carta">Items Carta</label>
-									<div class="controls">
-										<select name="select_items_carta" placeholder="Items Carta" id="select_items_carta">
-										<option ></option>
-										<%
-// 											List<ItemCartaDTO> itemCartaDTOs = (List<ItemCartaDTO>) request.getAttribute("items_carta");
-// 											Iterator itic = itemCartaDTOs.iterator();
-// 										  	while(itic.hasNext()) {
-// 										  		ItemCartaDTO itemCartaDTO = (ItemCartaDTO) itic.next();
-										  		
-// 										  		out.print("<option value=\"" + itemCartaDTO.getId() + "\">" + itemCartaDTO.getDescripcion() + "</option>");
-// 										  	}
-										%>
-										</select>
-									</div>
-		  							<label class="control-label" for="cantidad_platos">Cantidad Platos</label>
-									<div class="controls">
-										<input name="cantidad_platos" type="text" placeholder="1" id="cantidad_platos" />
-									</div>
-									<br>
-									<div class="controls inline_form">
-										<%
-// 										  out.print(validar_almacen);
-										%>										
-									</div>
-								</div>
-							</div>
-						</div>
+<!-- 						<div class="span4">	 -->
+<!-- 							<div class="row-fluid"> -->
+<!-- 		  						<div class="control-group"> -->
+<!-- 									<label class="control-label" for="select_items_carta">Items Carta</label> -->
+<!-- 									<div class="controls"> -->
+<!-- 										<select name="select_items_carta" placeholder="Items Carta" id="select_items_carta"> -->
+<!-- 										<option ></option> -->
+<%-- 										<% --%>
+<%-- 										%> --%>
+<!-- 										</select> -->
+<!-- 									</div> -->
+<!-- 		  							<label class="control-label" for="cantidad_platos">Cantidad Platos</label> -->
+<!-- 									<div class="controls"> -->
+<!-- 										<input name="cantidad_platos" type="text" placeholder="1" id="cantidad_platos" /> -->
+<!-- 									</div> -->
+<!-- 									<br> -->
+<!-- 									<div class="controls inline_form"> -->
+<%-- 										<% --%>
+<%-- 										%>										 --%>
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 					</div>
 				</form>
 				</div>
