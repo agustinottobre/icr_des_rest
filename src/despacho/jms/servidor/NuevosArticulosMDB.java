@@ -1,4 +1,4 @@
-package despacho.jms.cliente;
+package despacho.jms.servidor;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -23,10 +23,17 @@ import dto.ArticuloDTO;
 /**
  * Message-Driven Bean implementation class for: EjemploMDB
  */
+//@MessageDriven(
+//activationConfig = { 
+//@ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"), 
+//@ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/nuevosArticulos")
+//}, mappedName = "queue/nuevosArticulos")
+
 @MessageDriven(
 activationConfig = { 
 @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"), 
 @ActivationConfigProperty(propertyName = "destination", propertyValue = "queue/nuevosArticulos")
+//@ActivationConfigProperty(propertyName = "destination", propertyValue = )
 }, mappedName = "queue/nuevosArticulos")
 
 public class NuevosArticulosMDB implements MessageListener {
@@ -40,6 +47,9 @@ public class NuevosArticulosMDB implements MessageListener {
     public void onMessage(Message message) {
     	TextMessage textMessage = (TextMessage) message;
         try {
+        	if(null == administradorArticulos){
+        			System.out.println("## propiedades NO inyectadas!");	
+        	}
           System.out.println("Articulo Nuevo recibido de queue/nuevosArticulos fecha: " + new Date() );
           System.out.println(textMessage.getText());
           
