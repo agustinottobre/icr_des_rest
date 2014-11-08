@@ -59,6 +59,13 @@ public class RecursoTest {
 	}
 	
 	@GET()
+	@Path("testmain")
+	@Produces("text/plain")
+	public String testmain() {
+	    return servicioTest.testmain();
+	}
+	
+	@GET()
 	@Path("generarjsonrecibirarticulos")
 	@Produces("application/json")
 	public ArticulosRecibidos testGenerarJsonRecibirArticulos() {
