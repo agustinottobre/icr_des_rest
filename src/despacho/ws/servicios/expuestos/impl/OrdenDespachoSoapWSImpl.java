@@ -2,7 +2,9 @@ package despacho.ws.servicios.expuestos.impl;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.RequestWrapper;
@@ -51,7 +53,7 @@ public class OrdenDespachoSoapWSImpl implements OrdenDespachoSoapWS {
 		System.out.println("##codigo monitoreo: " + ordenDespacho.getIdMonitoreo());
 		//No se usa por ahora...
 		
-		List<ItemOrdenDespachoDTO> itemsOrdenDespachoDTOs = new ArrayList<ItemOrdenDespachoDTO>();
+		Set<ItemOrdenDespachoDTO> itemsOrdenDespachoDTOs = new HashSet<ItemOrdenDespachoDTO>();
 		System.out.println("## ITEMS");
 		for(Item item : ordenDespacho.getItems()){
 			System.out.println("------------------");
