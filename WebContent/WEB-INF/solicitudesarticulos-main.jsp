@@ -1,4 +1,5 @@
 <%-- <%@page import="dto.ItemCartaDTO"%> --%>
+<%@page import="dto.ItemSolicitudArticuloDTO"%>
 <%@page import="dto.SolicitudArticuloDTO"%>
 <%@page import="dto.ArticuloDTO"%>
 <%@page import="java.util.List"%>
@@ -29,7 +30,7 @@
 											<td>cantidad</td>
 										</tr>
 								        <%
-										  List<SolicitudArticuloDTO> listaSolicitudesArticulos = (List<SolicitudArticuloDTO>)request.getAttribute("lista-solicitudarticulos");
+										  List<SolicitudArticuloDTO> listaSolicitudesArticulos = (List<SolicitudArticuloDTO>)request.getAttribute("lista-solicitudesarticulos");
 // 										  String cantidad_platos = request.getParameter("cantidad_platos");
 // 										  String validar_almacen_ok = request.getParameter("validar_almacen_ok");
 										  
@@ -41,9 +42,11 @@
 											  out.print("<td >" + solicitudArticuloDTO.getIdOrdenDespacho() + "</td>");
 											  out.print("<td >" + solicitudArticuloDTO.getidDeposito() + "</td>");
 											  out.print("<td >" + solicitudArticuloDTO.getEstadoSolicitud() + "</td>");
-											  out.print("<td >" + solicitudArticuloDTO.getItems().get(0).getArticulo().getIdArticulo() + "</td>");
-											  out.print("<td >" + solicitudArticuloDTO.getItems().get(0).getArticulo().getDescripcion() + "</td>");
-											  out.print("<td >" + solicitudArticuloDTO.getItems().get(0).getCantidad() + "</td>");
+											  for(ItemSolicitudArticuloDTO item : solicitudArticuloDTO.getItems() ){
+												  out.print("<td >" + item.getArticulo().getIdArticulo() + "</td>");
+												  out.print("<td >" + item.getArticulo().getDescripcion() + "</td>");
+												  out.print("<td >" + item.getCantidad() + "</td>");
+										  	  }
 											  out.print("</tr >");  
 										  }
 										  
