@@ -72,8 +72,15 @@ public class OrdenDespachoSoapWSImpl implements OrdenDespachoSoapWS {
 		if(administradorOrdenesDespacho.altaOrdenDespacho(ordenDespachoDTO)){
 			System.out.println("## AdministradorOrdenesDespacho - altaOrdenDespacho OK");
 			resultado.setEstado("OK");
-			resultado.setMensaje("El alta de la Orden de Despacho fue exitosa");		
-			return resultado;
+			resultado.setMensaje("El alta de la Orden de Despacho fue exitosa");
+			
+			System.out.println("### AdministradorOrdenesDespacho - Comienza procesamiento de Orden de Despacho");
+			if ((administradorOrdenesDespacho.procesarSolicitudDespacho(ordenDespachoDTO)) != null) {	
+				resultado.setEstado("OK");
+				resultado.setMensaje("El alta de la Orden de Despacho fue exitosa");
+				return resultado;
+			}
+			
 		}
 		resultado.setEstado("ERROR");
 		resultado.setMensaje("Fallo el alta de la Orden de Despacho");

@@ -10,16 +10,21 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import despacho.ejb.interfaces.remotas.AdministradorArticulos;
+import despacho.ejb.interfaces.remotas.AdministradorOrdenesDespacho;
 import despacho.ejb.interfaces.remotas.AdministradorTest;
 import despacho.ejb.interfaces.remotas.ClienteRestParaLogistica;
 import despacho.rest.bindings.ArticulosRecibidos;
 import despacho.rest.bindings.Item;
 import despacho.rest.cliente.ClienteRestParaLogisticaBean;
+import dto.OrdenDespachoDTO;
 
 @Stateless
 public class ServicioTest {
 	@EJB
 	private AdministradorTest administradorTest;
+	
+	@EJB
+	private AdministradorOrdenesDespacho administradorOrdenesDespacho;
 	
 	public String testEJB(){
 		return "APP Despacho REST OK, test SERVICIO Articulo EJB! " +
@@ -66,6 +71,12 @@ public class ServicioTest {
 		clienteRestParaLogisticaBean.enviarCambioEstado(65432);
 		
 		return "enviarCambioEstado OK!";
+	}
+
+	public String testmain() {
+		// TODO Auto-generated method stub
+
+		return null;
 	}
 	
 }
