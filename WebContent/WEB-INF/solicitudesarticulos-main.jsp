@@ -1,4 +1,5 @@
 <%-- <%@page import="dto.ItemCartaDTO"%> --%>
+<%@page import="dto.SolicitudArticuloDTO"%>
 <%@page import="dto.ArticuloDTO"%>
 <%@page import="java.util.List"%>
 <%-- <%@page import="dto.ItemComandaDTO"%> --%>
@@ -19,22 +20,30 @@
 								<table class="table table-striped table-hover">
 									<tbody>
 										<tr>
-											<td>deposito</td>
 											<td>id</td>
+											<td>orden despacho</td>
+											<td>deposito</td>
+											<td>estado</td>
+											<td>articulo</td>
 											<td>descripcion</td>
+											<td>cantidad</td>
 										</tr>
 								        <%
-										  List<ArticuloDTO> listaArticulos = (List<ArticuloDTO>)request.getAttribute("lista-articulos");
+										  List<SolicitudArticuloDTO> listaSolicitudesArticulos = (List<SolicitudArticuloDTO>)request.getAttribute("lista-solicitudarticulos");
 // 										  String cantidad_platos = request.getParameter("cantidad_platos");
 // 										  String validar_almacen_ok = request.getParameter("validar_almacen_ok");
 										  
-										  for (ArticuloDTO articuloDTO : listaArticulos ){
+										  for (SolicitudArticuloDTO solicitudArticuloDTO : listaSolicitudesArticulos ){
 											  
-											  out.print("<tr id_articulo=" + articuloDTO.getIdArticulo() + ">");
+											  out.print("<tr id_solicitudarticulo=" + solicitudArticuloDTO.getIdSolicitud() + ">");
 // 											  out.print("<td><input name=\"seleccion_item_pedido\" class\"checkbox_item_pedido\" type=\"checkbox\" value=\"" + "itemComandaDTO.getId()" + "\" " + "disabled" + " /></td>");
-											  out.print("<td >" + articuloDTO.getIdDeposito() + "</td>");
-											  out.print("<td >" + articuloDTO.getIdArticulo() + "</td>");
-											  out.print("<td >" + articuloDTO.getDescripcion() + "</td>");
+											  out.print("<td >" + solicitudArticuloDTO.getIdSolicitud() + "</td>");
+											  out.print("<td >" + solicitudArticuloDTO.getIdOrdenDespacho() + "</td>");
+											  out.print("<td >" + solicitudArticuloDTO.getidDeposito() + "</td>");
+											  out.print("<td >" + solicitudArticuloDTO.getEstadoSolicitud() + "</td>");
+											  out.print("<td >" + solicitudArticuloDTO.getItems().get(0).getArticulo().getIdArticulo() + "</td>");
+											  out.print("<td >" + solicitudArticuloDTO.getItems().get(0).getArticulo().getDescripcion() + "</td>");
+											  out.print("<td >" + solicitudArticuloDTO.getItems().get(0).getCantidad() + "</td>");
 											  out.print("</tr >");  
 										  }
 										  
