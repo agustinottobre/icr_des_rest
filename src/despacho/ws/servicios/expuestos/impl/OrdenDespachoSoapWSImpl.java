@@ -11,12 +11,14 @@ import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
 import despacho.ejb.interfaces.remotas.AdministradorOrdenesDespacho;
+import despacho.ejb.interfaces.remotas.ClienteJmsParaDeposito;
 import despacho.ws.servicios.expuestos.*;
 import dto.ArticuloDTO;
 import dto.ItemOrdenDespachoDTO;
 import dto.OrdenDespachoDTO;
 import dto.OrdenVentaDTO;
 import dto.PortalDTO;
+import dto.SolicitudArticuloDTO;
 
 import javax.ejb.EJB;
 import javax.jws.WebService;
@@ -26,6 +28,9 @@ public class OrdenDespachoSoapWSImpl implements OrdenDespachoSoapWS {
 	
 	@EJB
 	AdministradorOrdenesDespacho administradorOrdenesDespacho;
+	
+	@EJB
+	ClienteJmsParaDeposito clienteJmsParaDeposito;
 	
 	public despacho.ws.servicios.expuestos.Resultado recibirOrdenDespacho(
 			despacho.ws.servicios.expuestos.OrdenDespacho arg0)
@@ -77,7 +82,14 @@ public class OrdenDespachoSoapWSImpl implements OrdenDespachoSoapWS {
 			resultado.setMensaje("El alta de la Orden de Despacho fue exitosa");
 			
 			System.out.println("### AdministradorOrdenesDespacho - Comienza procesamiento de Orden de Despacho");
-			if ((administradorOrdenesDespacho.procesarSolicitudDespacho(ordenDespachoDTO)) != null) {	
+			List<SolicitudArticuloDTO> listaSolicitudesArticulosDTO = administradorOrdenesDespacho.procesarSolicitudDespacho(ordenDespachoDTO); 
+			if ( listaSolicitudesArticulosDTO != null) {
+				
+				//Enviar a deposito por JMS las solicitudes
+				for(SolicitudArticuloDTO solicitudArticuloDTO : listaSolicitudesArticulosDTO){
+					clienteJmsParaDeposito.enviarSolicitudesArticulos(solicitudArticuloDTO);	
+				}
+				
 				resultado.setEstado("OK");
 				resultado.setMensaje("El alta de la Orden de Despacho fue exitosa");
 				return resultado;

@@ -34,8 +34,10 @@ import javax.swing.plaf.basic.BasicInternalFrameTitlePane.RestoreAction;
 
 import despacho.ejb.interfaces.remotas.AdministradorArticulos;
 import despacho.ejb.interfaces.remotas.AdministradorOrdenesDespacho;
+import despacho.ejb.interfaces.remotas.AdministradorSolicitudesArticulo;
 import dto.ArticuloDTO;
 import dto.OrdenDespachoDTO;
+import dto.SolicitudArticuloDTO;
 
 //import org.apache.commons.fileupload.FileItem;
 //import org.apache.commons.fileupload.FileItemFactory;
@@ -76,6 +78,9 @@ public class ServletAcciones extends HttpServlet {
 	
 	@EJB
 	private AdministradorOrdenesDespacho administradorOrdenesDespacho;
+	
+	@EJB
+	private AdministradorSolicitudesArticulo administradorSolicitudesArticulo;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -271,12 +276,25 @@ public class ServletAcciones extends HttpServlet {
 				request.setAttribute("lista-ordenesdespacho-response", "Hay " + listaOrdenesDespacho.size() + " ordenes de despacho");
 				request.setAttribute("lista-ordenesdespacho", listaOrdenesDespacho);
 			}else{
-				request.setAttribute("lista-ordenesdespacho-response", "No hay articulos");
+				request.setAttribute("lista-ordenesdespacho-response", "No hay ordenes de despacho");
 				request.setAttribute("error", "No hay ordenes de despacho");
 				request.getRequestDispatcher("/error.jsp").forward(request, response);
 			}
 			
 			request.getRequestDispatcher("/ordenesdespacho.jsp").forward(request, response);
+		}else if(accion.equals("listar_solicitudesarticulos")){
+			List<SolicitudArticuloDTO> listaSolicitudesArticulos = administradorSolicitudesArticulo.listar();
+			if (listaSolicitudesArticulos != null && 0 <= listaSolicitudesArticulos.size())
+			{
+				request.setAttribute("lista-solicitudesarticulos-response", "Hay " + listaSolicitudesArticulos.size() + " solicitudes de articulos");
+				request.setAttribute("lista-solicitudesarticulos", listaSolicitudesArticulos);
+			}else{
+				request.setAttribute("lista-solicitudesarticulos-response", "No hay solicitudes de articulos");
+				request.setAttribute("error", "No hay solicitudes de articulos");
+				request.getRequestDispatcher("/error.jsp").forward(request, response);
+			}
+			
+			request.getRequestDispatcher("/solicitudesarticulos.jsp").forward(request, response);
 		}else if(accion.equals("item_pendiente_listo")){
 			String area = request.getParameter("area");
 			String id_item_comanda = request.getParameter("id_item_comanda");
