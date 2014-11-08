@@ -1,5 +1,6 @@
 package despacho.rest.recursos;
 
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;

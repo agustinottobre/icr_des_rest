@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
 import despacho.ejb.interfaces.remotas.AdministradorArticulos;
+import despacho.ejb.interfaces.remotas.AdministradorSolicitudesArticulo;
 import despacho.ejb.interfaces.remotas.AdministradorTest;
 import despacho.rest.bindings.ArticulosRecibidos;
 import despacho.rest.bindings.Item;
@@ -22,6 +23,9 @@ public class ServicioArticulo {
 	@EJB
 	private AdministradorArticulos administradorArticulos;
 	
+	@EJB
+	private AdministradorSolicitudesArticulo administradorSolicitudesArticulo;
+	
 	public Response recibirArticulos(ArticulosRecibidos articulosRecibidos){
 		System.out.println("-------------------------------------"); 
 		System.out.println("##articulosRecibidos.getIdSolicitud: " + articulosRecibidos.getIdSolicitud());
@@ -32,10 +36,9 @@ public class ServicioArticulo {
 		}
 		System.out.println("-------------------------------------");
 		
-		//LOGICA DE NOGCIO FALTANTE
-		
+		//LOGICA DE NEGCIO
 		RespuestaRest respuestaRest = new RespuestaRest();
-		if(true){
+		if(administradorSolicitudesArticulo.registrarRecepcionDeStock(articulosRecibidos)){
 			respuestaRest.setEstado("OK");
 			respuestaRest.setMensaje("##recibirArticulos OK!");			
 		}else{
