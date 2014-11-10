@@ -58,14 +58,16 @@ public class ClienteRestParaLogisticaBean implements ClienteRestParaLogistica {
 				ClientRequest request = new ClientRequest(
 //						"http://localhost:8080/despacho/rest/test/echopost"
 						(String)administradorPropiedades.get("logistica-rest-host") +
-						(String)administradorPropiedades.get("logistica-rest-path-cambioestado")
+						(String)administradorPropiedades.get("logistica-rest-path-cambioestado") +
+						idOrdenDespacho
 						);
 				request.accept("application/json");
 		 
 //				String input = "{\"nroDespacho\":100,\"name\":\"iPad 4\"}";
-				String input = "{\"nroDespacho\":" + idOrdenDespacho + "}";
-				System.out.println("##enviando a logistica mediante POST: " + input);
-				request.body("application/json", input);
+//				String input = "{\"nroDespacho\":" + idOrdenDespacho + "}";
+//				System.out.println("##enviando a logistica mediante POST: " + input);
+				System.out.println("##enviando a logistica mediante POST: " + request.getUri());
+//				request.body("application/json", input);
 		 
 				ClientResponse<String> response = request.post(String.class);
 		 

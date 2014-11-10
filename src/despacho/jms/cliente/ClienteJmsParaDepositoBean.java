@@ -70,6 +70,12 @@ public class ClienteJmsParaDepositoBean implements ClienteJmsParaDeposito{
 			DEFAULT_PASSWORD = (String)administradorPropiedades.get("deposito-jms-password");
 			PROVIDER_URL = (String)administradorPropiedades.get("deposito-jms-host");
 			
+//			DEFAULT_DESTINATION = "jms/queue/solicitud";
+//			DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
+//			DEFAULT_USERNAME = "deposito";
+//			DEFAULT_PASSWORD = "deposito.1234";
+//			PROVIDER_URL = "remote://172.16.163.30:4447";
+			
         }catch(Exception e){
         	e.printStackTrace();
         }
@@ -120,7 +126,7 @@ public class ClienteJmsParaDepositoBean implements ClienteJmsParaDeposito{
             
             // Set up the context for the JNDI lookup
             final Properties env = new Properties();
-//            env.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT_FACTORY);
+            env.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT_FACTORY);
             env.put(Context.PROVIDER_URL, System.getProperty(Context.PROVIDER_URL, PROVIDER_URL));
             env.put(Context.SECURITY_PRINCIPAL, System.getProperty("username", DEFAULT_USERNAME));
             env.put(Context.SECURITY_CREDENTIALS, System.getProperty("password", DEFAULT_PASSWORD));
@@ -139,6 +145,7 @@ public class ClienteJmsParaDepositoBean implements ClienteJmsParaDeposito{
 
             // Create the JMS connection, session, producer
             connection = connectionFactory.createConnection(System.getProperty("username", DEFAULT_USERNAME), System.getProperty("password", DEFAULT_PASSWORD));
+//            connection = connectionFactory.createConnection();
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             producer = session.createProducer(destination);
             connection.start();
