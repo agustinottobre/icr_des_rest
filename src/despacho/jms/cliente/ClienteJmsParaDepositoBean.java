@@ -86,7 +86,8 @@ public class ClienteJmsParaDepositoBean implements ClienteJmsParaDeposito{
         
         SolicitudArticulos solicitudArticulos = new SolicitudArticulos();
         solicitudArticulos.setIdSolicitud(String.valueOf(solicitudArticuloDTO.getIdSolicitud()));
-        solicitudArticulos.setIdModulo(String.valueOf(solicitudArticuloDTO.getidDeposito()));
+//        solicitudArticulos.setIdModulo(String.valueOf(solicitudArticuloDTO.getidDeposito()));
+        solicitudArticulos.setIdModulo(String.valueOf(3));
         List<Items> items = new ArrayList<Items>();
         for(ItemSolicitudArticuloDTO itemSolicitudArticuloDTO : solicitudArticuloDTO.getItems()){
         	Items item = new Items();
