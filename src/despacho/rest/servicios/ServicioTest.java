@@ -68,7 +68,9 @@ public class ServicioTest {
 	public String enviarCambioEstado(){
 		ClienteRestParaLogisticaBean clienteRestParaLogisticaBean = 
 				new ClienteRestParaLogisticaBean();
-		clienteRestParaLogisticaBean.enviarCambioEstado(65432);
+		OrdenDespachoDTO o = new OrdenDespachoDTO();
+		o.setIdOrdenDespacho(9999);
+		clienteRestParaLogisticaBean.enviarCambioEstado(o);
 		
 		return "enviarCambioEstado OK!";
 	}

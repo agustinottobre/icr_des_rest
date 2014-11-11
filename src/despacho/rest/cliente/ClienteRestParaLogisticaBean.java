@@ -42,6 +42,7 @@ import despacho.xml.bindings.SolicitudArticulos.Items.Articulo;
 import despacho.xml.bindings.SolicitudArticulos;
 import despacho.xml.bindings.SolicitudArticulos.Items;
 import dto.ItemSolicitudArticuloDTO;
+import dto.OrdenDespachoDTO;
 import dto.SolicitudArticuloDTO;
 
 @Stateless
@@ -50,17 +51,42 @@ public class ClienteRestParaLogisticaBean implements ClienteRestParaLogistica {
 	private AdministradorPropiedades administradorPropiedades;
 	
 	@Override
-	public boolean enviarCambioEstado(int idOrdenDespacho) {
+	public boolean enviarCambioEstado(OrdenDespachoDTO ordenDespachoDTO) {
 		  try {
 			  Context context = new InitialContext();
 			  administradorPropiedades = (AdministradorPropiedades)context.lookup("java:global/icr_des_ear/icr_des_nco/AdministradorPropiedadesBean!despacho.ejb.interfaces.remotas.AdministradorPropiedades");
 			  
-				ClientRequest request = new ClientRequest(
-//						"http://localhost:8080/despacho/rest/test/echopost"
-						(String)administradorPropiedades.get("logistica-rest-host") +
-						(String)administradorPropiedades.get("logistica-rest-path-cambioestado") +
-						idOrdenDespacho
-						);
+//				ClientRequest request = new ClientRequest(
+//						(String)administradorPropiedades.get("logistica-rest-host") +
+//						(String)administradorPropiedades.get("logistica-rest-path-cambioestado") +
+//						ordenDespachoDTO.getIdOrdenDespacho()
+//						);
+			  ClientRequest request = null;
+				if (ordenDespachoDTO.getIdLogistica()== 10) {
+					request = new ClientRequest(
+							(String)administradorPropiedades.get("logistica-rest-host") +
+							(String)administradorPropiedades.get("logistica-rest-path-cambioestado") +
+							ordenDespachoDTO.getIdOrdenDespacho()
+							);		
+				}
+				if (ordenDespachoDTO.getIdLogistica()== 3) {
+					request = new ClientRequest(
+							(String)administradorPropiedades.get("logistica-rest-host2") +
+							(String)administradorPropiedades.get("logistica-rest-path-cambioestado2") +
+							ordenDespachoDTO.getIdOrdenDespacho()
+							);		
+				}
+				if (ordenDespachoDTO.getIdLogistica()== 4) {
+					request = new ClientRequest(
+							(String)administradorPropiedades.get("logistica-rest-host3") +
+							(String)administradorPropiedades.get("logistica-rest-path-cambioestado3") +
+							ordenDespachoDTO.getIdOrdenDespacho()
+							);		
+				}
+
+				
+
+				
 				request.accept("application/json");
 		 
 //				String input = "{\"nroDespacho\":100,\"name\":\"iPad 4\"}";

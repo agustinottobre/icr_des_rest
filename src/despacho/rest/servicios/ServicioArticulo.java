@@ -40,7 +40,9 @@ public class ServicioArticulo {
 		RespuestaRest respuestaRest = new RespuestaRest();
 		if(administradorSolicitudesArticulo.registrarRecepcionDeStock(articulosRecibidos)){
 			respuestaRest.setEstado("OK");
-			respuestaRest.setMensaje("##recibirArticulos OK!");			
+			respuestaRest.setMensaje("##recibirArticulos OK!");		
+			
+			
 		}else{
 			respuestaRest.setEstado("ERROR");
 			respuestaRest.setMensaje("##recibirArticulos FALLO!");

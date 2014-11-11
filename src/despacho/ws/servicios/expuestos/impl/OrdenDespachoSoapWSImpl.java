@@ -56,7 +56,10 @@ public class OrdenDespachoSoapWSImpl implements OrdenDespachoSoapWS {
 		ordenDespachoDTO.setOrdenVenta(ordenVentaDTO);
 		
 		System.out.println("##codigo monitoreo: " + ordenDespacho.getIdMonitoreo());
+		ordenDespachoDTO.setIdLogistica(Integer.parseInt(ordenDespacho.getIdMonitoreo()));
+		
 		//No se usa por ahora...
+		
 		
 		Set<ItemOrdenDespachoDTO> itemsOrdenDespachoDTOs = new HashSet<ItemOrdenDespachoDTO>();
 		System.out.println("## ITEMS");
