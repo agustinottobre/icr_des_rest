@@ -5,7 +5,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.net.ConnectException;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -62,21 +64,24 @@ public class ClienteRestParaLogisticaBean implements ClienteRestParaLogistica {
 //						ordenDespachoDTO.getIdOrdenDespacho()
 //						);
 			  ClientRequest request = null;
-				if (ordenDespachoDTO.getIdLogistica()== 10) {
+//				if (ordenDespachoDTO.getIdLogistica()== 10) {
+				if (ordenDespachoDTO.getIdLogistica()== Integer.parseInt((String)administradorPropiedades.get("logistica-rest-id1"))) {
 					request = new ClientRequest(
-							(String)administradorPropiedades.get("logistica-rest-host") +
-							(String)administradorPropiedades.get("logistica-rest-path-cambioestado") +
+							(String)administradorPropiedades.get("logistica-rest-host1") +
+							(String)administradorPropiedades.get("logistica-rest-path-cambioestado1") +
 							ordenDespachoDTO.getIdOrdenDespacho()
 							);		
-				}
-				if (ordenDespachoDTO.getIdLogistica()== 3) {
+				}else
+//				if (ordenDespachoDTO.getIdLogistica()== 3) {
+				if (ordenDespachoDTO.getIdLogistica()== Integer.parseInt((String)administradorPropiedades.get("logistica-rest-id2"))) {
 					request = new ClientRequest(
 							(String)administradorPropiedades.get("logistica-rest-host2") +
 							(String)administradorPropiedades.get("logistica-rest-path-cambioestado2") +
 							ordenDespachoDTO.getIdOrdenDespacho()
 							);		
-				}
-				if (ordenDespachoDTO.getIdLogistica()== 4) {
+				}else
+//				if (ordenDespachoDTO.getIdLogistica()== 4) {
+				if (ordenDespachoDTO.getIdLogistica()== Integer.parseInt((String)administradorPropiedades.get("logistica-rest-id3"))) {
 					request = new ClientRequest(
 							(String)administradorPropiedades.get("logistica-rest-host3") +
 							(String)administradorPropiedades.get("logistica-rest-path-cambioestado3") +
@@ -85,17 +90,23 @@ public class ClienteRestParaLogisticaBean implements ClienteRestParaLogistica {
 				}
 
 				
-
+				if(null == request){
+					System.out.println("##Logistica DESCONOCIDO!!!!!!!!!!!!! ");
+					return false;
+				}
 				
 				request.accept("application/json");
 		 
 //				String input = "{\"nroDespacho\":100,\"name\":\"iPad 4\"}";
 //				String input = "{\"nroDespacho\":" + idOrdenDespacho + "}";
 //				System.out.println("##enviando a logistica mediante POST: " + input);
+				System.out.println("##enviando a logistica id: " + ordenDespachoDTO.getIdLogistica());
 				System.out.println("##enviando a logistica mediante POST: " + request.getUri());
 //				request.body("application/json", input);
 		 
 				ClientResponse<String> response = request.post(String.class);
+				
+				System.out.println("##request.post ya se ejecuto");
 		 
 				if (response.getStatus() != 200) {
 					throw new RuntimeException("Failed : HTTP error code : "
@@ -110,7 +121,13 @@ public class ClienteRestParaLogisticaBean implements ClienteRestParaLogistica {
 				while ((output = br.readLine()) != null) {
 					System.out.println(output);
 				}
-		 
+
+		  	  } catch (ConnectException e) {
+		  		  System.out.println("##Cliente Logistica - Connection Timeout");
+		  		  return false;
+		      } catch (SocketTimeoutException e) {
+		    	  System.out.println("##Cliente Logistica - Socket Timeout");
+		    	  return false;
 			  } catch (Exception e) {		 
 				e.printStackTrace();
 				return false;

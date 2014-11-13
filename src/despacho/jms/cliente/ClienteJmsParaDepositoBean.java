@@ -50,6 +50,7 @@ public class ClienteJmsParaDepositoBean implements ClienteJmsParaDeposito{
     private final String DEFAULT_MESSAGE_COUNT = "1";
     private String DEFAULT_USERNAME;
     private String DEFAULT_PASSWORD;
+    private boolean SEGURIDAD;
     private final String INITIAL_CONTEXT_FACTORY = "org.jboss.naming.remote.client.InitialContextFactory";
     private String PROVIDER_URL;
 
@@ -64,37 +65,52 @@ public class ClienteJmsParaDepositoBean implements ClienteJmsParaDeposito{
         Context context = null;
 
         try{
-			DEFAULT_DESTINATION = (String)administradorPropiedades.get("deposito-jms-queue");
+//			DEFAULT_DESTINATION = (String)administradorPropiedades.get("deposito-jms-queue");
 			DEFAULT_CONNECTION_FACTORY = (String)administradorPropiedades.get("deposito-jms-connection-factory");
 //			DEFAULT_USERNAME = (String)administradorPropiedades.get("deposito-jms-usuario");
 //			DEFAULT_PASSWORD = (String)administradorPropiedades.get("deposito-jms-password");
 //			PROVIDER_URL = (String)administradorPropiedades.get("deposito-jms-host");
 
 			
-			if (solicitudArticuloDTO.getidDeposito()== 2) {
-				DEFAULT_USERNAME = (String)administradorPropiedades.get("deposito-jms-usuario");
-				DEFAULT_PASSWORD = (String)administradorPropiedades.get("deposito-jms-password");
-				PROVIDER_URL = (String)administradorPropiedades.get("deposito-jms-host");
-				System.out.println("##URL Deposito " + PROVIDER_URL +DEFAULT_USERNAME+DEFAULT_PASSWORD);
-			}
-			if (solicitudArticuloDTO.getidDeposito()== 5) {
+//			if (solicitudArticuloDTO.getidDeposito()== 2) {
+			if (solicitudArticuloDTO.getidDeposito()== Integer.parseInt((String)administradorPropiedades.get("deposito-jms-id1"))) {
+				PROVIDER_URL = (String)administradorPropiedades.get("deposito-jms-host1");
+				DEFAULT_DESTINATION = (String)administradorPropiedades.get("deposito-jms-cola1");
+				DEFAULT_USERNAME = (String)administradorPropiedades.get("deposito-jms-usuario1");
+				DEFAULT_PASSWORD = (String)administradorPropiedades.get("deposito-jms-password1");
+				SEGURIDAD = Boolean.parseBoolean((String)administradorPropiedades.get("deposito-jms-seguridad1"));
+			}else
+//			if (solicitudArticuloDTO.getidDeposito()== 5) {
+			if (solicitudArticuloDTO.getidDeposito()== Integer.parseInt((String)administradorPropiedades.get("deposito-jms-id2"))) {
+				PROVIDER_URL = (String)administradorPropiedades.get("deposito-jms-host2");
+				DEFAULT_DESTINATION = (String)administradorPropiedades.get("deposito-jms-cola2");
 				DEFAULT_USERNAME = (String)administradorPropiedades.get("deposito-jms-usuario2");
 				DEFAULT_PASSWORD = (String)administradorPropiedades.get("deposito-jms-password2");
-				PROVIDER_URL = (String)administradorPropiedades.get("deposito-jms-host2");
-				System.out.println("##URL Deposito " + PROVIDER_URL +DEFAULT_USERNAME+DEFAULT_PASSWORD);
-			}
-			if (solicitudArticuloDTO.getidDeposito()== 11) {
+				SEGURIDAD = Boolean.parseBoolean((String)administradorPropiedades.get("deposito-jms-seguridad2"));
+			}else
+//			if (solicitudArticuloDTO.getidDeposito()== 11) {
+			if (solicitudArticuloDTO.getidDeposito()== Integer.parseInt((String)administradorPropiedades.get("deposito-jms-id3"))) {
+				PROVIDER_URL = (String)administradorPropiedades.get("deposito-jms-host3");
+				DEFAULT_DESTINATION = (String)administradorPropiedades.get("deposito-jms-cola3");
 				DEFAULT_USERNAME = (String)administradorPropiedades.get("deposito-jms-usuario3");
 				DEFAULT_PASSWORD = (String)administradorPropiedades.get("deposito-jms-password3");
-				PROVIDER_URL = (String)administradorPropiedades.get("deposito-jms-host3");
-				System.out.println("##URL Deposito " + PROVIDER_URL +DEFAULT_USERNAME+DEFAULT_PASSWORD);
-			}
-			if (solicitudArticuloDTO.getidDeposito()== 16) {
+				SEGURIDAD = Boolean.parseBoolean((String)administradorPropiedades.get("deposito-jms-seguridad3"));
+			}else
+//			if (solicitudArticuloDTO.getidDeposito()== 16) {
+			if (solicitudArticuloDTO.getidDeposito()== Integer.parseInt((String)administradorPropiedades.get("deposito-jms-id4"))) {
+				PROVIDER_URL = (String)administradorPropiedades.get("deposito-jms-host4");
+				DEFAULT_DESTINATION = (String)administradorPropiedades.get("deposito-jms-cola4");
 				DEFAULT_USERNAME = (String)administradorPropiedades.get("deposito-jms-usuario4");
 				DEFAULT_PASSWORD = (String)administradorPropiedades.get("deposito-jms-password4");
-				PROVIDER_URL = (String)administradorPropiedades.get("deposito-jms-host4");
-				System.out.println("##URL Deposito " + PROVIDER_URL +DEFAULT_USERNAME+DEFAULT_PASSWORD);
+				SEGURIDAD = Boolean.parseBoolean((String)administradorPropiedades.get("deposito-jms-seguridad4"));
 			}
+			if(null == PROVIDER_URL){
+				System.out.println("##DEPOSITO DESCONOCIDO !!!!!!!!!!");
+				return false;
+			}
+			
+			System.out.println("##URL modulo Deposito " + solicitudArticuloDTO.getidDeposito() + " " + PROVIDER_URL);
+			System.out.println("##Seguridad : " + SEGURIDAD + " user:pass " +DEFAULT_USERNAME + ":" + DEFAULT_PASSWORD);
 			
 //			DEFAULT_DESTINATION = "jms/queue/solicitud";
 //			DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
@@ -171,7 +187,12 @@ public class ClienteJmsParaDepositoBean implements ClienteJmsParaDeposito{
             System.out.println("Found destination \"" + destinationString + "\" in JNDI");
 
             // Create the JMS connection, session, producer
-            connection = connectionFactory.createConnection(System.getProperty("username", DEFAULT_USERNAME), System.getProperty("password", DEFAULT_PASSWORD));
+            if(SEGURIDAD){
+            	connection = connectionFactory.createConnection(System.getProperty("username", DEFAULT_USERNAME), System.getProperty("password", DEFAULT_PASSWORD));	
+            }else{
+            	connection = connectionFactory.createConnection();
+            }
+            
 //            connection = connectionFactory.createConnection();
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             producer = session.createProducer(destination);

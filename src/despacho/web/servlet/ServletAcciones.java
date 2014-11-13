@@ -16,6 +16,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 
@@ -34,6 +35,7 @@ import javax.swing.plaf.basic.BasicInternalFrameTitlePane.RestoreAction;
 
 import despacho.ejb.interfaces.remotas.AdministradorArticulos;
 import despacho.ejb.interfaces.remotas.AdministradorOrdenesDespacho;
+import despacho.ejb.interfaces.remotas.AdministradorPropiedades;
 import despacho.ejb.interfaces.remotas.AdministradorSolicitudesArticulo;
 import dto.ArticuloDTO;
 import dto.OrdenDespachoDTO;
@@ -81,6 +83,9 @@ public class ServletAcciones extends HttpServlet {
 	
 	@EJB
 	private AdministradorSolicitudesArticulo administradorSolicitudesArticulo;
+	
+	@EJB
+	private AdministradorPropiedades administradorPropiedades;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -88,7 +93,7 @@ public class ServletAcciones extends HttpServlet {
 		
 //		ActionController actionController = ActionController.getInstance();
 		String accion = request.getParameter("accion");
-		System.out.println("## ACTION : " + accion);
+		System.out.println("## ACCION : " + accion);
 //		Stub stub = Stub.getIntance();
 //		
 //		RestaurantDTO restaurantDTO = new RestaurantDTO();
@@ -295,6 +300,19 @@ public class ServletAcciones extends HttpServlet {
 			}
 			
 			request.getRequestDispatcher("/solicitudesarticulos.jsp").forward(request, response);
+		}else if(accion.equals("listar_propiedades")){
+			Properties propiedades = administradorPropiedades.getPropiedades();
+			if (propiedades != null && 0 <= propiedades.size())
+			{
+				request.setAttribute("propiedades-response", "Hay " + propiedades.size() + " propiedades");
+				request.setAttribute("propiedades", propiedades);
+			}else{
+				request.setAttribute("propiedades-response", "No hay propiedades");
+				request.setAttribute("error", "No hay propiedades");
+				request.getRequestDispatcher("/error.jsp").forward(request, response);
+			}
+			
+			request.getRequestDispatcher("/config.jsp").forward(request, response);
 		}else if(accion.equals("item_pendiente_listo")){
 			String area = request.getParameter("area");
 			String id_item_comanda = request.getParameter("id_item_comanda");
@@ -421,6 +439,21 @@ public class ServletAcciones extends HttpServlet {
 			throws ServletException, IOException {
 		
 		System.out.println("## INICIO doPost #####################################");
+		String accion = req.getParameter("accion");
+		System.out.println("## ACCION : " + accion);
+		
+		if(accion.equals("guardar")){
+			
+			Map<String, String[]> mapaParametros = req.getParameterMap();
+			for(Map.Entry< String, String[]> entry : mapaParametros.entrySet()){
+				System.out.println(entry.getKey() + " : " + entry.getValue()[0]);
+				administradorPropiedades.put(entry.getKey(), entry.getValue()[0]);
+			}
+
+//			req.getRequestDispatcher("/accion?accion=listar_propiedades").forward(req, resp);
+//			req.getRequestDispatcher("/accion?accion=listar_propiedades").re
+			resp.sendRedirect("accion?accion=listar_propiedades");
+		}
 		
 //		ActionController actionController = ActionController.getInstance();
 //		

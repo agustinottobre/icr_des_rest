@@ -25,6 +25,7 @@
 											<td>estado</td>
 											<td>venta</td>
 											<td>portal</td>
+											<td>logistica</td>
 											<td>fecha</td>
 										</tr>
 									</thead>
@@ -34,6 +35,7 @@
 											<td>estado</td>
 											<td>venta</td>
 											<td>portal</td>
+											<td>logistica</td>
 											<td>fecha</td>
 										</tr>
 									</tfoot>
@@ -51,6 +53,7 @@
 											  out.print("<td >" + ordenDespachoDTO.getEstadoOrden() + "</td>");
 											  out.print("<td >" + ordenDespachoDTO.getOrdenVenta().getIdOrdenVenta() + "</td>");
 											  out.print("<td >" + ordenDespachoDTO.getOrdenVenta().getPortal().getIdPortal() + "</td>");
+											  out.print("<td >" + ordenDespachoDTO.getIdLogistica() + "</td>");
 											  out.print("<td >" + ordenDespachoDTO.getFechaRecepcion() + "</td>");
 											  out.print("</tr >");  
 										  }

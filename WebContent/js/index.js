@@ -4176,7 +4176,7 @@ ts.addWidget({
 
 
 
-var $table = $('table'),
+var $table = $('table.tablesorter-bootstrap'),
 process = false;
 
 $('.error').click(function(){
