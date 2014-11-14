@@ -92,7 +92,8 @@ public class nuevoArticuloTestJMSClientSEND {
             log.info("Found destination \"" + destinationString + "\" in JNDI");
 
             // Create the JMS connection, session, producer, and consumer
-            connection = connectionFactory.createConnection(System.getProperty("username", DEFAULT_USERNAME), System.getProperty("password", DEFAULT_PASSWORD));
+//            connection = connectionFactory.createConnection(System.getProperty("username", DEFAULT_USERNAME), System.getProperty("password", DEFAULT_PASSWORD));
+            connection = connectionFactory.createConnection();
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             producer = session.createProducer(destination);
 //            consumer = session.createConsumer(destination);
